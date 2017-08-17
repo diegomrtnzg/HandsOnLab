@@ -152,7 +152,7 @@ In this step, you can set up a build definition for your VSTS project and define
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image14.png)
 
-5.  Finally, click the **Options** tab and configure the Default agent queue to **Hosted Linux Preview**.
+5.  Finally, click the **Tasks** tab and configure the Default agent queue to **Hosted Linux Preview**.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image15.png)
 
