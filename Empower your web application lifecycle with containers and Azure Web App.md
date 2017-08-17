@@ -11,7 +11,7 @@ Nowadays, one of the biggest challenges when developing modern applications for 
 
 This lab is based on ai-duet sample in Tensorflow Magenta project. [More info](https://github.com/prashanthmadi/ai-duet-tensor)
 
-![](media/93dfaf309db970dde8f0ef4847f82061.png)
+![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image1.png)
 
 The objective is to deliver this application continuously in a Web App, using Visual Studio Team Services. The following figure details this continuous delivery pipeline:
 
