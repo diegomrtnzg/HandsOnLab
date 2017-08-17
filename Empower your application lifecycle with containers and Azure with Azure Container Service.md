@@ -1,126 +1,61 @@
-Hand On Lab: Empower your application lifecycle with containers and Azure with Azure Container Service
-======================================================================================================
+# Hand On Lab: Empower your application lifecycle with containers and Azure with Azure Container Service
 
-*This lab is based on* [Full CI/CD pipeline to deploy a multi-container
-application on Azure Container Service with Docker Swarm using Visual Studio
-Team
-Services](https://github.com/Microsoft/azure-docs/blob/master/articles/container-service/container-service-docker-swarm-setup-ci-cd.md)
-*documentation.*
+*This lab is based on* [Full CI/CD pipeline to deploy a multi-container application on Azure Container Service with Docker Swarm using Visual Studio Team Services](https://github.com/Microsoft/azure-docs/blob/master/articles/container-service/container-service-docker-swarm-setup-ci-cd.md) *documentation.*
 
-Requirements
-------------
-
+## Requirements
 Microsoft Azure subscription
 
-Step by step
-------------
-
-Nowadays, one of the biggest challenges when developing modern applications for
-the cloud is being able to deliver these applications continuously. In this
-article, you will learn how to implement a full continuous integration and
-deployment (CI/CD) pipeline using:
-
+## Step by step
+Nowadays, one of the biggest challenges when developing modern applications for the cloud is being able to deliver these applications continuously. In this article, you will learn how to implement a full continuous integration and deployment (CI/CD) pipeline using:
 -   Azure Container Service Engine with Docker Swarm Mode
-
 -   Azure Container Registry
-
 -   Visual Studio Team Services
 
-This lab is based on a simple application, available on
-[GitHub](https://github.com/jcorioland/MyShop/tree/docker-linux), developed with
-ASP.NET Core. The application is composed of four different services: three web
-APIs and one web front end.
+This lab is based on a simple application, available on [GitHub](https://github.com/jcorioland/MyShop/tree/docker-linux), developed with ASP.NET Core. The application is composed of four different services: three web APIs and one web front end.
 
 ![](media/7d0ad6ec907a45674a4ceb8f0c2ac003.png)
 
-The objective is to deliver this application continuously in a Docker Swarm Mode
-cluster, using Visual Studio Team Services.
-
-Here is a brief explanation of the steps:
-
+The objective is to deliver this application continuously in a Docker Swarm Mode cluster, using Visual Studio Team Services. Here is a brief explanation of the steps:
 1.  Code changes are committed to the source code repository
-
 2.  Code repository triggers a build in Visual Studio Team Services
-
-3.  Visual Studio Team Services gets the latest version of the sources and
-    builds all the images that make up the application
-
-4.  Visual Studio Team Services pushes each image to a Docker registry created
-    using the Azure Container Registry service
-
+3.  Visual Studio Team Services gets the latest version of the sources and builds all the images that make up the application
+4.  Visual Studio Team Services pushes each image to a Docker registry created using the Azure Container Registry service
 5.  Visual Studio Team Services triggers a new release
-
-6.  The release runs some commands using SSH on the Azure container service
-    cluster master node
-
+6.  The release runs some commands using SSH on the Azure container service cluster master node
 7.  Docker Swarm Mode on the cluster pulls the latest version of the images
-
 8.  The new version of the application is deployed using Docker Stack
 
-Step 0: Prerequisites
----------------------
-
+## Step 0: Prerequisites
 Before starting this lab, you need to complete the following tasks:
 
-### [Create a Swarm Mode cluster in Azure Container Service with ACS Engine](https://github.com/Azure/azure-quickstart-templates/tree/master/101-acsengine-swarmmode)
-
-To create a new Docker Swarm mode cluster in Azure Container Service using ACS
-Engine, follow these steps:
-
-1.  [Go to this
-    link](https://github.com/Azure/azure-quickstart-templates/tree/master/101-acsengine-swarmmode):
-    <https://github.com/Azure/azure-quickstart-templates/tree/master/101-acsengine-swarmmode>
-
+### Create a Swarm Mode cluster in Azure Container Service with ACS Engine
+To create a new Docker Swarm mode cluster in Azure Container Service using ACS Engine, follow these steps:
+1.  [Go to this link](https://github.com/Azure/azure-quickstart-templates/tree/master/101-acsengine-swarmmode)
 2.  Click on "Deploy to Azure" button
 
     ![](media/da3a2126dfee33c6cd71312b42631732.png)
 
 3.  Log in with your Microsoft Azure credentials
-
 4.  Fill the fields to create the cluster:
-
     1.  Subscription: your subscription of Microsoft Azure
-
-    2.  Resource group: we recommend creating a new resource group which contain
-        all the cluster resources
-
+    2.  Resource group: we recommend creating a new resource group which contain all the cluster resources
     3.  Location: West US 2 is the recommended location
-
     4.  Agent count: you have to select 1 node
-
-    5.  Agent Endpoint DNS: fill with a unique name like "clusterdiego739agent".
-        You can use random numbers to complete the unique name
-
+    5.  Agent Endpoint DNS: fill with a unique name like "clusterdiego739agent". You can use random numbers to complete the unique name
     6.  Agent Subnet: the subnet for the agent nodes
-
     7.  Agent VM Size: you could use Standard_D2_v2
-
     8.  First Consecutive Static IP: first IP for master node
-
     9.  Linux Admin Username: username for master nodes
-
     10. Location: you could use westus2
-
-    11. Master Endpoint DNS: fill with a unique name like
-        "clusterdiego739master". You can use random numbers to complete the
-        unique name
-
+    11. Master Endpoint DNS: fill with a unique name like "clusterdiego739master". You can use random numbers to complete the unique name
     12. Master VM Size: you could use Standard_D2_v2
-
     13. Name Suffix: it´s ok the predefined value
-
-    14. SSH Key: complete with your public SSH key with this format: ssh-rsa
-        XXXX...XXXX…. More info in the note section after the step 6.
-
+    14. SSH Key: complete with your public SSH key with this format: ssh-rsa XXXX...XXXX…. More info in the note section after the step 6.
     15. Target Environment: it´s ok the predefined value
-
 5.  Accept the terms and conditions
-
 6.  Click on "Purchase" button
 
-**Note**: if you don´t have an SSH Key you could create a new key (e.g. using
-<http://travistidwell.com/jsencrypt/demo/>) or use the next key. The format of
-the keys must be:
+**Note**: if you don´t have an SSH Key you could create a new key (e.g. using [PuTTYgen](http://www.putty.org/)]) or use [the example key](). The format ofthe keys must be:
 
 **Format**
 
@@ -133,70 +68,6 @@ ssh-rsa *[publickey]* rsa-key-*[dateyyyymmdd]*
 \-----BEGIN RSA PRIVATE KEY-----
 
 *[privatekey]*
-
-\-----END RSA PRIVATE KEY-----
-
-**Example key**
-
-*Public SSH Key*
-
-ssh-rsa
-AAAAB3NzaC1yc2EAAAABJQAAAQEAphsPlDSLQ09fbm/dS+6EsZZAw/zc/zLKoWxiQoV+d78kQZ8LBZuYbvEDsHO3Uszih/XxIXseS8GcSut+U+cGMDIC3XK++bjnQOgyMPZRDALlLdhrg7LO74Lq7iOg8JnC1ioViiE1ZtuQmo2eUzM0kFyOLyzgUv7Q4J+5F7xOhYS8cfKzlZN6tIuWkNRb5/rrCquKtPCozP3Ql9xjak9ZsjFL+VGx00/u3Rlowu7XJWAzu8Gl9+1zKzA5EwSC1x9fSbzS2SoWfkaz5TvNuCP0PSiH1khZbmo8LTjoDh9KR+PKngxCrno8hTkuw1oiUOvpaW1y14ZM53/p9o1bDHcPKQ==
-rsa-key-20170605
-
-*Private SSH Key*
-
-\-----BEGIN RSA PRIVATE KEY-----
-
-MIIEoQIBAAKCAQEAphsPlDSLQ09fbm/dS+6EsZZAw/zc/zLKoWxiQoV+d78kQZ8L
-
-BZuYbvEDsHO3Uszih/XxIXseS8GcSut+U+cGMDIC3XK++bjnQOgyMPZRDALlLdhr
-
-g7LO74Lq7iOg8JnC1ioViiE1ZtuQmo2eUzM0kFyOLyzgUv7Q4J+5F7xOhYS8cfKz
-
-lZN6tIuWkNRb5/rrCquKtPCozP3Ql9xjak9ZsjFL+VGx00/u3Rlowu7XJWAzu8Gl
-
-9+1zKzA5EwSC1x9fSbzS2SoWfkaz5TvNuCP0PSiH1khZbmo8LTjoDh9KR+PKngxC
-
-rno8hTkuw1oiUOvpaW1y14ZM53/p9o1bDHcPKQIBJQKCAQB5Nld5/NRTtnYSUaF8
-
-mUwS40QEo8Pc0gl8tt/rWn7hwtVEpH2qJW88M1W4HRcS6ImhfB6purU+M1ZgL05Y
-
-5tsAkzKF6/Mk7raXJfscz2uTJLUTne2XdKTYSsccet0586najWmp/I7Arg+TYGyd
-
-lBGZxv/46WVs/yLNbaK+SySK8PjqEoj404yijifsK+FX9AyMWlmqY4fiyI45+T+E
-
-sESyHzJjRqhf+SAEkvC1ER3Agjhv53Skvx49G/zBrpCczo1S7WLhXMp0fONi4hxm
-
-iiS2+ZGyPiuyAinbcnZmxTOSBDOOcalwWaq13BFiIfyMks0C4+q51A1MGsQnq4Py
-
-v8WtAoGBAOwyZ6CHAsb7xZocs8m4lo7tbPjYjUbNu8M6boiKtpEM9frskuDaJiJd
-
-kFt5H9TlQX+ewtDRT/WvvJt+YYwNIpxoH7SsO0TH/v1uRuTEfK9NinNMNetR3y64
-
-c4lz0j4qUegcChCjqsZkVragMKsEuXbQxuXdpjR7jYqzFDpfWstpAoGBALQIQkRk
-
-P2THDKlM7euaa0Fv3zNuJtcwxuulr/8WzSgi6qO0G55irnqyJ/xRrhJePNiNIHet
-
-Jc9NopiLOHx32Doao6mixP6k3vCjmSDY6fYtw1Zc7KQCrgOA75/niqkAI9S+zrug
-
-QZ8nq2nMF1YZyBdI1oQ0HFINIwabVTL4KG3BAoGAMxHRN3cjMfE/e0R55m0ZolzZ
-
-So+v1/UhravE30CWLTM8GpQEFPDlppDFRDXdXnbCDcF2OvzTBLBgIZ7I+6/QIdFS
-
-9qHHoCs+DUhGrgD4XUEysSU8FzRL7m0SD+Gw6ti3w3uvJjE5rlriUQAKhdeCC9od
-
-Ksgj76wC7Y6A6gbHhe0CgYEAjRs626iEtsWGdttuXrdNJXNb6go6HkjTQxMpFArz
-
-01mjJly7s33HBjib4XBzrYgh2ilseXnfXUqv31hctJVInD5kmbbtbaPRVNNAqwrg
-
-44um8KmyjmL3F4C70FuIWvJFmOiUMjF/ipS2yIs04p6V6LyMdXTzmkGl1L7vwCpJ
-
-M20CgYAdfKbYWYHBXOj7nj3vDHsnhnWnu2ssczNQA8zVCCfndjjKX/eLc7P96Z8J
-
-k4demlL4VOjiUc6ZxFbj5R8DCDLBEzSAmio8TGOr+7AMGEvaA4eIZTPWdIADzZ3A
-
-jMV+M652UseYlrjo+nPjo1ktIYJtvYa5XnXuj9kAndQmPN5BoQ==
 
 \-----END RSA PRIVATE KEY-----
 
