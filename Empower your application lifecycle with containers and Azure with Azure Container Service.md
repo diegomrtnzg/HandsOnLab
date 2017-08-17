@@ -114,7 +114,7 @@ The last step before getting into the CI/CD pipeline is to configure external co
 
 > **Note**: you need the data from Step 0: Prerrequisites, Create a Swarm Mode cluster in Azure Container Service with ACS Engine.
 
-All the configuration is done now. In the next steps, you can create the CI/CD pipeline that builds and deploys the application to the Docker Swarm cluster.
+All the configuration is done. In the next steps, you can create the CI/CD pipeline that builds and deploys the application to the Docker Swarm cluster.
 
 ## Step 2: Import the code
 In this step, you can import the GitHub project to your VSTS project and use it in the next steps.
@@ -150,7 +150,7 @@ In this step, you can set up a build definition for your VSTS project and define
 
 4.  On the **Build Definitions** page, open the **Triggers** tab and configure the build to use continuous integration with the fork of the MyShop project that you created in the Step 2. Make sure that you select *docker-linux* as the **Branch specification**.
 
-    ![]media/image14.png)
+    ![](media/image14.png)
 
 5.  Finally, click the **Options** tab and configure the Default agent queue to **Hosted Linux Preview**.
 
@@ -180,11 +180,11 @@ You need two Docker steps for each image, one to build the image, and one to pus
     For the build operation, select your Azure Container Registry, the **Build an image** action, and the Dockerfile that defines each image. Set the **Working Directory** as the Dockerfile root directory, define the **Image Name**, and select **Include Latest Tag**.
 
     The Image Name has to be in this format: `$(RegistryURL)/[NAME]:$(Build.BuildId)`. Replace **[NAME]** with the image name:
--   proxy
--   products-api
--   ratings-api
--   recommendations-api
--   shopfront
+    -   `proxy`
+    -   `products-api`
+    -   `ratings-api`
+    -   `recommendations-api`
+    -   `shopfront`
 
 3.  For each image, configure a second step that uses the docker push command by
     adding a second Docker task.
@@ -199,12 +199,12 @@ You need two Docker steps for each image, one to build the image, and one to pus
     ![](./media/image20.png)
 
     a.   A command-line task that uses a bash script to replace the *RegistryURL* occurrence in the docker-compose.yml file with the RegistryURL variable.
-        `\-c "sed -i 's/RegistryUrl/\$(RegistryURL)/g' src/docker-compose-v3.yml"`
+        `-c "sed -i 's/RegistryUrl/$(RegistryURL)/g' src/docker-compose-v3.yml"`
 
         ![](./media/image21.png)
 
     b.  A command-line task that uses a bash script to replace the *AgentURL* occurrence in the docker-compose.yml file with the AgentURL variable.
-        `\-c "sed -i 's/AgentUrl/\$(AgentURL)/g' src/docker-compose-v3.yml"`
+        `-c "sed -i 's/AgentUrl/$(AgentURL)/g' src/docker-compose-v3.yml"`
 
     c.  A task that drops the updated Compose file as a build artifact so it can be used in the release. See the following screen for details.
 
