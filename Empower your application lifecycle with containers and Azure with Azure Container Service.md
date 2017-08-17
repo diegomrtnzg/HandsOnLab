@@ -55,403 +55,248 @@ To create a new Docker Swarm mode cluster in Azure Container Service using ACS E
 5.  Accept the terms and conditions
 6.  Click on "Purchase" button
 
-**Note**: if you don´t have an SSH Key you could create a new key (e.g. using [PuTTYgen](http://www.putty.org/)]) or use [the example key](). The format ofthe keys must be:
+> **Note**: if you don´t have an SSH Key you could create a new key (e.g. using [PuTTYgen](http://www.putty.org/)]) or use [the example key](resources/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/SSH%20Key). The format ofthe keys must be:
+```
+Public SSH Key format
 
-**Format**
+ssh-rsa [publickey] rsa-key-[dateyyyymmdd]
 
-*Public SSH Key*
-
-ssh-rsa *[publickey]* rsa-key-*[dateyyyymmdd]*
-
-*Private SSH Key*
+Private SSH Key format
 
 \-----BEGIN RSA PRIVATE KEY-----
 
-*[privatekey]*
+[privatekey]
 
 \-----END RSA PRIVATE KEY-----
+```
 
-The deployment will start to create and in a few minutes you will have it
-available. You can continue the lab in the meanwhile the ACS cluster is created.
+The deployment will start to create and in a few minutes you will have it available. You can continue the lab in the meanwhile the ACS cluster is created.
 
-You need to save your private SSH key because you will need it on Step 1. You
-also will need other data from the cluster in the next steps:
-
+You need to save your private SSH key because you will need it on Step 1. You also will need other data from the cluster in the next steps:
 1.  User: is the field Linux Admin Username
-
 2.  Host name: you could find it in a resource named swarmm-agent-ip-…
 
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\Capture.png](media/1fb2fe8b2dadea1fe99e986d85e27648.png)
+![](media/1fb2fe8b2dadea1fe99e986d85e27648.png)
 
-**Note**: The Docker Swarm orchestrator in Azure Container Service uses legacy
-standalone Swarm. Currently, the integrated [Swarm
-mode](https://docs.docker.com/engine/swarm/) (in Docker 1.12 and higher) is not
-a supported orchestrator in Azure Container Service. For this reason, we are
-using [ACS
-Engine](https://github.com/Azure/acs-engine/blob/master/docs/swarmmode.md), a
-community-contributed [quickstart
-template](https://azure.microsoft.com/resources/templates/101-acsengine-swarmmode/),
-or a Docker solution in the [Azure
-Marketplace](https://azuremarketplace.microsoft.com/).
+> **Note**: The Docker Swarm orchestrator in Azure Container Service uses legacy standalone Swarm. Currently, the integrated [Swarm mode](https://docs.docker.com/engine/swarm/) (in Docker 1.12 and higher) is not a supported orchestrator in Azure Container Service. For this reason, we are using [ACS
+Engine](https://github.com/Azure/acs-engine/blob/master/docs/swarmmode.md), a community-contributed [quickstart template](https://azure.microsoft.com/resources/templates/101-acsengine-swarmmode/), or a Docker solution in the [Azure Marketplace](https://azuremarketplace.microsoft.com/).
 
-### [Create an Azure Container Registry](https://github.com/diegomrtnzg/azure-docs-pr/blob/master/articles/container-registry/container-registry-get-started-portal.md)
-
-To create a new Azure Container Registry, you need to follow these steps:
-<https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-portal>.
-Enable admin users in order for authentication.
+### Create an Azure Container Registry
+To create a new Azure Container Registry, you need to follow [these steps](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-portal). Enable admin users in order for authentication.
 
 You will need some info of the Azure Container Registry in the next steps:
+1.  Username: you can find this info in the “Access keys” blade with the name “Username”
+2.  Password: you can find this info in the “Access keys” blade with the name “Password”
+3.  Registry: you can find this info in the “Access keys” blade with the name “Login server” (you need to add https:// at the beginning of the “Login server” if it isn´t recognized as a URL).
 
-1.  Username: you can find this info in the “Access keys” blade with the name
-    “Username”
+![](media/f704153ab5d226177217490b86967ab1.png)
 
-2.  Password: you can find this info in the “Access keys” blade with the name
-    “Password”
+### Create a Visual Studio Team Services account and team project
+You need to create a Visual Studio Team Services account with the same email address which has a Microsoft Azure subscription associated. You could follow [these steps](https://www.visualstudio.com/en-us/docs/setup-admin/team-services/sign-up-for-visual-studio-team-services) to create the account and the team project.
 
-3.  Registry: you can find this info in the “Access keys” blade with the name
-    “Login server” (you need to add https:// at the beginning of the “Login
-    server” if it isn´t recognized as a URL).
-
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\33.3.png](media/f704153ab5d226177217490b86967ab1.png)
-
-### [Create a Visual Studio Team Services account and team project ](https://www.visualstudio.com/en-us/docs/setup-admin/team-services/sign-up-for-visual-studio-team-services)
-
-You need to create a Visual Studio Team Services account with the same email
-address which has a Microsoft Azure subscription associated. You could follow
-these steps to create the account and the team project:
-<https://www.visualstudio.com/en-us/docs/setup-admin/team-services/sign-up-for-visual-studio-team-services>.
-
-Step 1: Configure your Visual Studio Team Services account
-----------------------------------------------------------
-
-In this section, you can configure your Visual Studio Team Services account. To
-configure VSTS Services Endpoints, in your Visual Studio Team Services project,
-click the **Settings** icon in the toolbar, and select **Services**.
+## Step 1: Configure your Visual Studio Team Services account
+In this section, you can configure your Visual Studio Team Services account. To configure VSTS Services Endpoints, in your Visual Studio Team Services project, click the **Settings** icon in the toolbar, and select **Services**.
 
 ![](media/e0ed0db1d7548d0c4958a70af7b40faf.png)
 
 ### Connect Visual Studio Team Services and Azure account
-
 Set up a connection between your VSTS project and your Azure account.
-
 1.  On the left, click **New Service Endpoint** \> **Azure Resource Manager**.
-
-2.  To authorize VSTS to work with your Azure account, select your
-    **Subscription** and click **OK**.
-
->   [./media/image6.png](./media/image6.png)
+2.  To authorize VSTS to work with your Azure account, select your     **Subscription** and click **OK**.
+    
+    ![](./media/image6.png)
 
 ### Connect VSTS to your Azure Container Service cluster
+The last step before getting into the CI/CD pipeline is to configure external connections to your Docker Swarm cluster in Azure.
+1.  For the Docker Swarm cluster, add an endpoint of type **SSH**. Then enter     the SSH connection information of your Swarm cluster (master node).
+    
+    ![](./media/image7.png)
 
-The last step before getting into the CI/CD pipeline is to configure external
-connections to your Docker Swarm cluster in Azure.
+> **Note**: you need the data from Step 0: Prerrequisites, Create a Swarm Mode cluster in Azure Container Service with ACS Engine.
 
-1.  For the Docker Swarm cluster, add an endpoint of type **SSH**. Then enter
-    the SSH connection information of your Swarm cluster (master node).
+All the configuration is done now. In the next steps, you can create the CI/CD pipeline that builds and deploys the application to the Docker Swarm cluster.
 
->   [./media/image7.png](./media/image7.png)
+## Step 2: Import the code
+In this step, you can import the GitHub project to your VSTS project and use it in the next steps.
+1.  To import the GitHub code, click **Code**, the **name of your project     repository** (*HoL – ACS* in the screen) and **Import repository**.
+    
+    ![](media/9ac45e1a16146d8a8c1ee0be89ea02dd.png)
 
-**Note**: you need the data from Step 0: Prerrequisites, Create a Swarm Mode
-cluster in Azure Container Service with ACS Engine.
+1.  Copy the GitHub project URL to import it and click **Import**. Clone URL: `https://github.com/jcorioland/MyShop`
 
-All the configuration is done now. In the next steps, you can create the CI/CD
-pipeline that builds and deploys the application to the Docker Swarm cluster.
-
-Step 2: Import the code
------------------------
-
-In this step, you can import the GitHub project to your VSTS project and use it
-in the next steps.
-
-1.  To import the GitHub code, click **Code**, the **name of your project
-    repository** (*HoL – ACS* in the screen) and **Import repository**.
-
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\1.png](media/9ac45e1a16146d8a8c1ee0be89ea02dd.png)
-
-1.  Copy the GitHub project URL to import it and click **Import**.
-
-    Clone URL: https://github.com/jcorioland/MyShop
-
-    ![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\2.png](media/ef76cb6deafbce9dedc582515afb316e.png)
+    ![](media/ef76cb6deafbce9dedc582515afb316e.png)
 
 2.  When VSTS finishes to import the code, you will see the the project:
 
     ![](media/b715943dc7adc343af644c948b884c81.png)
 
-Step 3: Create the build definition
------------------------------------
-
-In this step, you can set up a build definition for your VSTS project and define
-the build workflow for your container images
+## Step 3: Create the build definition
+In this step, you can set up a build definition for your VSTS project and define the build workflow for your container images
 
 ### Initial definition setup
+1.  To create a build definition, connect to your Visual Studio Team Services project and click **Build & Release**. In the **Build definitions** section, click **+ New**.
+    
+    ![](./media/image11.png)
 
-1.  To create a build definition, connect to your Visual Studio Team Services
-    project and click **Build & Release**. In the **Build definitions** section,
-    click **+ New**.
+2.  Select the **Empty process**.
 
->   [./media/image11.png](./media/image11.png)
+    ![](./media/image12.png)
 
-1.  Select the **Empty process**.
+3.  Then, click the **Variables** tab and create two new variables: **RegistryURL** and **AgentURL**. Paste the values of your Registry and Cluster Agents DNS.
 
->   [./media/image12.png](./media/image12.png)
+    ![](./media/image13.png)
 
-1.  Then, click the **Variables** tab and create two new variables:
-    **RegistryURL** and **AgentURL**. Paste the values of your Registry and
-    Cluster Agents DNS.
+> **Note**: you need the data from Step 0: Prerrequisites, Create a Swarm Mode cluster in Azure Container Service with ACS Engine and Create an Azure Container Registry.
 
->   [./media/image13.png](./media/image13.png)
+4.  On the **Build Definitions** page, open the **Triggers** tab and configure the build to use continuous integration with the fork of the MyShop project that you created in the Step 2. Make sure that you select *docker-linux* as the **Branch specification**.
 
->   **Note**: you need to data the data from Step 0: Prerrequisites, Create a
->   Swarm Mode cluster in Azure Container Service with ACS Engine and Create an
->   Azure Container Registry.
+    ![]media/image14.png)
 
-1.  On the **Build Definitions** page, open the **Triggers** tab and configure
-    the build to use continuous integration with the fork of the MyShop project
-    that you created in the Step 2. Make sure that you select *docker-linux* as
-    the **Branch specification**.
+5.  Finally, click the **Options** tab and configure the Default agent queue to **Hosted Linux Preview**.
 
->   [./media/image14.png](./media/image14.png)
-
-1.  Finally, click the **Options** tab and configure the Default agent queue to
-    **Hosted Linux Preview**.
-
->   [./media/image15.png](./media/image15.png)
+    ![](./media/image15.png)
 
 ### Define the build workflow
+The next steps define the build workflow. First, you need to configure the source of the code. To do it, select **This project** and your **repository** and **branch** (docker-linux, you will find it in *All branches*).
 
-The next steps define the build workflow. First, you need to configure the
-source of the code. To do it, select **This project** and your **repository**
-and **branch** (docker-linux, you will find it in *All branches*).
+![](media/d4de1b88f4f3b8cd066bd3d4fb508090.png)
 
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\3.png](media/d4de1b88f4f3b8cd066bd3d4fb508090.png)
-
-There are five container images to build for the *MyShop* application. Each
-image is built using the Dockerfile located in the project folders:
-
+There are five container images to build for the *MyShop* application. Each image is built using the Dockerfile located in the project folders:
 1.  ProductsApi
-
 2.  Proxy
-
 3.  RatingsApi
-
 4.  RecommandationsApi
-
 5.  ShopFront
 
-You need two Docker steps for each image, one to build the image, and one to
-push the image into the Azure container registry.
+You need two Docker steps for each image, one to build the image, and one to push the image into the Azure container registry.
+1.  To add a step in the build workflow, click **+ Add build step** and select **Docker**.
 
-1.  To add a step in the build workflow, click **+ Add build step** and select
-    **Docker**.
+    ![](./media/image17.png)
 
->   [./media/image17.png](./media/image17.png)
+2.  For each image, configure one step that uses the `docker build` command.
 
-1.  For each image, configure one step that uses the docker build command.
+    ![](./media/image18.png)
 
->   [./media/image18.png](./media/image18.png)
+    For the build operation, select your Azure Container Registry, the **Build an image** action, and the Dockerfile that defines each image. Set the **Working Directory** as the Dockerfile root directory, define the **Image Name**, and select **Include Latest Tag**.
 
->   For the build operation, select your Azure Container Registry, the **Build
->   an image** action, and the Dockerfile that defines each image. Set the
->   **Working Directory** as the Dockerfile root directory, define the **Image
->   Name**, and select **Include Latest Tag**.
-
->   The Image Name has to be in this format:
->   \$(RegistryURL)/[NAME]:\$(Build.BuildId). Replace **[NAME]** with the image
->   name:
-
+    The Image Name has to be in this format: `$(RegistryURL)/[NAME]:$(Build.BuildId)`. Replace **[NAME]** with the image name:
 -   proxy
-
 -   products-api
-
 -   ratings-api
-
 -   recommendations-api
-
 -   shopfront
 
-1.  For each image, configure a second step that uses the docker push command by
+3.  For each image, configure a second step that uses the docker push command by
     adding a second Docker task.
 
->   [./media/image19.png](./media/image19.png)
+    ![](./media/image19.png)
 
->   For the push operation, select your Azure container registry, the **Push an
->   image** action, enter the **Image Name** that is built in the previous step
->   and select **Include Latest Tag**.
+    For the push operation, select your Azure container registry, the **Push an image** action, enter the **Image Name** that is built in the previous step and select **Include Latest Tag**.
 
-1.  After you configure the build and push steps for each of the five images,
+4.  After you configure the build and push steps for each of the five images,
     add three more steps in the build workflow.
 
->   [./media/image20.png](./media/image20.png)
+    ![](./media/image20.png)
 
--   A command-line task that uses a bash script to replace the *RegistryURL*
-    occurrence in the docker-compose.yml file with the RegistryURL variable.
+    a.   A command-line task that uses a bash script to replace the *RegistryURL* occurrence in the docker-compose.yml file with the RegistryURL variable.
+        `\-c "sed -i 's/RegistryUrl/\$(RegistryURL)/g' src/docker-compose-v3.yml"`
 
->   \-c "sed -i 's/RegistryUrl/\$(RegistryURL)/g' src/docker-compose-v3.yml"
+        ![](./media/image21.png)
 
->   [./media/image21.png](./media/image21.png)
+    b.  A command-line task that uses a bash script to replace the *AgentURL* occurrence in the docker-compose.yml file with the AgentURL variable.
+        `\-c "sed -i 's/AgentUrl/\$(AgentURL)/g' src/docker-compose-v3.yml"`
 
--   A command-line task that uses a bash script to replace the *AgentURL*
-    occurrence in the docker-compose.yml file with the AgentURL variable.
+    c.  A task that drops the updated Compose file as a build artifact so it can be used in the release. See the following screen for details.
 
->   \-c "sed -i 's/AgentUrl/\$(AgentURL)/g' src/docker-compose-v3.yml"
+        ![](./media/image22.png)
 
--   A task that drops the updated Compose file as a build artifact so it can be
-    used in the release. See the following screen for details.
-
->   [./media/image22.png](./media/image22.png)
-
->   [./media/image23.png](./media/image23.png)
+        ![](./media/image23.png)
 
 ### Test the build
-
 To test the build, you need to:
-
 1.  Click **Save & queue** to test your build definition.
 
->   [./media/image24.png](./media/image24.png)
+    ![](./media/image24.png)
 
-1.  Click **Queue.**
+2.  Click **Queue.**
 
->   [./media/image25.png](./media/image25.png)
+    ![](./media/image25.png)
 
-1.  If the **Build** is correct, you have to see a similar screen:
+3.  If the **Build** is correct, you have to see a similar screen:
 
 ![](media/a11d4a01c180ae3fc80f5869ee4020f0.png)
 
-Step 4: Create the release definition
--------------------------------------
-
-Visual Studio Team Services allows you to [manage releases across
-environments](https://www.visualstudio.com/team-services/release-management/).
-You can enable continuous deployment to make sure that your application is
-deployed on your different environments (such as dev, test, pre-production, and
-production) in a smooth way. You can create an environment that represents your
-Azure Container Service Docker Swarm Mode cluster.
+## Step 4: Create the release definition
+Visual Studio Team Services allows you to [manage releases across environments](https://www.visualstudio.com/team-services/release-management/). You can enable continuous deployment to make sure that your application is deployed on your different environments (such as dev, test, pre-production, and production) in a smooth way. You can create an environment that represents your Azure Container Service Docker Swarm Mode cluster.
 
 ![](media/70bbbc509f36ad31963cb1491353cc2b.png)
 
 ### Initial release setup
-
 1.  To create a release definition, click **Releases** \> **+ Release**
+2.  To configure the artifact source, Click **Artifacts** \> **Link an artifact  source**. Here, link this new release definition to the build that you defined in the previous step. After that, the docker-compose.yml file is available in the release process.
 
-2.  To configure the artifact source, Click **Artifacts** \> **Link an artifact
-    source**. Here, link this new release definition to the build that you
-    defined in the previous step. After that, the docker-compose.yml file is
-    available in the release process.
+    ![](./media/image28.png)
 
->   [./media/image28.png](./media/image28.png)
+3.  To configure the release trigger, click **Triggers** and select **Continuous Deployment**. Set the trigger on the same artifact source. This setting ensures that a new release starts when the build completes successfully.
 
-1.  To configure the release trigger, click **Triggers** and select **Continuous
-    Deployment**. Set the trigger on the same artifact source. This setting
-    ensures that a new release starts when the build completes successfully.
+    ![](./media/image29.png)
 
->   [./media/image29.png](./media/image29.png)
+4.  To configure the release variables, click **Variables** and select **+Variable** to create three new variables with the info of the registry: **docker.username**, **docker.password**, and **docker.registry**. Paste the values of the Azure Container Registry which you created in Step 0, Create an Azure Container Registry.
 
-1.  To configure the release variables, click **Variables** and select
-    **+Variable** to create three new variables with the info of the registry:
-    **docker.username**, **docker.password**, and **docker.registry**. Paste the
-    values of the Azure Container Registry which you created in Step 0, Create
-    an Azure Container Registry.
+    ![](./media/image30.png)
 
->   [./media/image30.png](./media/image30.png)
-
->   **IMPORTANT**: As shown on the previous screen, click the **Lock** checkbox
->   in docker.password. This setting is important to restrict the view of the
->   password.
+>   **IMPORTANT**: As shown on the previous screen, click the **Lock** checkbox in docker.password. This setting is important to restrict the view of the password.
 
 ### Define the release workflow
-
 The release workflow is composed of two tasks that you need to add.
+1.  Configure a task to securely copy the compose file to a *deploy* folder on the Docker Swarm master node, using the SSH connection you configured previously. See the following screen for details.
+    Source folder: `$(System.DefaultWorkingDirectory)/MyShop-CI/drop`
 
-1.  Configure a task to securely copy the compose file to a *deploy* folder on
-    the Docker Swarm master node, using the SSH connection you configured
-    previously. See the following screen for details.
+    ![](./media/image31.png)
 
->   Source folder: \$(System.DefaultWorkingDirectory)/MyShop-CI/drop
+2.  Configure a second task to execute a bash command to run docker and docker stack deploy commands on the master node. See the following screen for details.
+    `docker login -u $(docker.username) -p $(docker.password) $(docker.registry) && export DOCKER_HOST=:2375 && cd deploy && docker stack deploy --compose-file docker-compose-v3.yml myshop --with-registry-auth`
 
->   [./media/image31.png](./media/image31.png)
+    ![](./media/image32.png)
 
-1.  Configure a second task to execute a bash command to run docker and docker
-    stack deploy commands on the master node. See the following screen for
-    details.
+    The command executed on the master uses the Docker CLI to do the following tasks:
+    -   Log in to the Azure container registry (it uses three build variables that are defined in the **Variables** tab)
+    -   Define the **DOCKER_HOST** variable to work with the Swarm endpoint (:2375).
+    -   Navigate to the *deploy* folder that was created by the preceding secure copy task where it contains the docker-compose.yml file.
+    -   Execute docker stack deploy commands that pulls the new images and creates the containers.
 
->   docker login -u \$(docker.username) -p \$(docker.password)
->   \$(docker.registry) && export DOCKER_HOST=:2375 && cd deploy && docker stack
->   deploy --compose-file docker-compose-v3.yml myshop --with-registry-auth
-
->   [./media/image32.png](./media/image32.png)
-
->   The command executed on the master uses the Docker CLI to do the following
->   tasks:
-
--   Log in to the Azure container registry (it uses three build variables that
-    are defined in the **Variables** tab)
-
--   Define the **DOCKER_HOST** variable to work with the Swarm endpoint (:2375).
-
--   Navigate to the *deploy* folder that was created by the preceding secure
-    copy task where it contains the docker-compose.yml file.
-
--   Execute docker stack deploy commands that pulls the new images and creates
-    the containers.
-
->   **IMPORTANT**: As shown on the previous screen, leave the **Fail on STDERR**
->   checkbox unchecked. This setting allows us to complete the release process
->   due to docker-compose prints several diagnostic messages, such as containers
->   are stopping or being deleted, on the standard error output. If you check
->   the checkbox, Visual Studio Team Services will reports that errors occurred
->   during the release, even if all goes well.
+>   **IMPORTANT**: As shown on the previous screen, leave the **Fail on STDERR** checkbox unchecked. This setting allows us to complete the release process due to docker-compose prints several diagnostic messages, such as containers are stopping or being deleted, on the standard error output. If you check the checkbox, Visual Studio Team Services will reports that errors occurred during the release, even if all goes well.
 
 ### Test the release
-
-It´s time to test the release on the Azure Container Service and check if it
-shows the app:
-
+It´s time to test the release on the Azure Container Service and check if it shows the app:
 1.  Click **Save**, **Release** and **Create Release** to create a new release.
 
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\1.png](media/20efe4b4a94c939ad233e440604c915c.png)
+    ![](media/20efe4b4a94c939ad233e440604c915c.png)
 
-1.  Click **Create** to start the release
+2.  Click **Create** to start the release
 
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\2.png](media/c230e50d1f3f8c531133f4107734ce54.png)
+    ![](media/c230e50d1f3f8c531133f4107734ce54.png)
 
-1.  To check the status of the release, double click the **blue button**.
+3.  To check the status of the release, double click the **blue button**.
 
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\3.png](media/d0c32184241628650f44b118de619dd4.png)
+    ![](media/d0c32184241628650f44b118de619dd4.png)
 
-1.  If the **Release** is correct, you will see a similar screen to the below:
+4.  If the **Release** is correct, you will see a similar screen to the below:
 
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\4.png](media/1947d457eafaa9bffbf24e4228946fa7.png)
+    ![](media/1947d457eafaa9bffbf24e4228946fa7.png)
 
-1.  To see the app running, go to **Agent public IP address** resource on the
-    [Azure Portal](https://portal.azure.com/) (swarm-agent-ip-…. resource) and
-    access the **DNS name**.
+5.  To see the app running, go to **Agent public IP address** resource on the [Azure Portal](https://portal.azure.com/) (swarm-agent-ip-…. resource) and access the **DNS name**.
 
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\5.png](media/2e0c11350fafafd1c5735e7dcd86066f.png)
+    ![](media/2e0c11350fafafd1c5735e7dcd86066f.png)
 
-1.  You will see your home page of your app running on ACS on Microsoft Azure.
+6.  You will see your home page of your app running on ACS on Microsoft Azure.
 
-![C:\\Users\\dimart\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Word\\6.png](media/2bd434fdc2a54641a56392ba5aef4d32.png)
+    ![](media/2bd434fdc2a54641a56392ba5aef4d32.png)
 
-Step 5: Test the CI/CD pipeline
--------------------------------
+## Step 5: Test the CI/CD pipeline
+Now that you are done with the configuration, it's time to test this new CI/CD pipeline. The easiest way to test it is to update the source code and commit the changes into your Visual Studio Team Services repository. A few seconds after you push the code, you will see a new build running in Visual Studio Team Services. Once completed successfully, a new release is triggered and deployed the new version of the application on the Azure Container Service cluster.
 
-Now that you are done with the configuration, it's time to test this new CI/CD
-pipeline. The easiest way to test it is to update the source code and commit the
-changes into your Visual Studio Team Services repository. A few seconds after
-you push the code, you will see a new build running in Visual Studio Team
-Services. Once completed successfully, a new release is triggered and deployed
-the new version of the application on the Azure Container Service cluster.
-
-Next steps
-----------
-
--   For more information about CI/CD with Visual Studio Team Services, see the
-    [VSTS Build overview](https://www.visualstudio.com/docs/build/overview).
-
--   For more information about ACS Engine, see the [ACS Engine GitHub
-    repo](https://github.com/Azure/acs-engine).
-
--   For more information about Docker Swarm mode, see the [Docker Swarm mode
-    overview](https://docs.docker.com/engine/swarm/).
+## Next steps
+-   For more information about CI/CD with Visual Studio Team Services, see the [VSTS Build overview](https://www.visualstudio.com/docs/build/overview).
+-   For more information about ACS Engine, see the [ACS Engine GitHub repo](https://github.com/Azure/acs-engine).
+-   For more information about Docker Swarm mode, see the [Docker Swarm mode overview](https://docs.docker.com/engine/swarm/).
