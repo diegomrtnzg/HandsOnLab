@@ -112,11 +112,11 @@ Next steps will build and push our container image to our repository. To do it, 
 
 1.  To add the first step in the build workflow, click **+ Add Task** and select **Docker** (add two Docker tasks).
 
-    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image17.png)
+    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image17.PNG)
 
 2.  For the image, configure one step that uses the `docker build` command.
 
-    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image18.png)
+    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image18.PNG)
 
     For the build operation, select your **Azure Container Registry** (first you need to select your Azure subscription), the **Build an image** action, and use the predefined  **Dockerfile**. Define the **Image Name** and select **Include Latest Tag**. The Image Name need to be: `$(RegistryURL)/aiduet:$(Build.BuildId)`.
 3.  For the image, configure a second step that uses the docker push command by adding a second Docker task.
@@ -137,7 +137,7 @@ To test the build, you need to:
 
 3.  If the **Build** is correct, you have to see a similar screen:
 
-    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image22.png)
+    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image22.PNG)
 
 ## Step 3: Create the release definition
 Visual Studio Team Services allows you to [manage releases across environments](https://www.visualstudio.com/team-services/release-management/). You can enable continuous deployment to make sure that your application is deployed on your different environments (such as dev, test, pre-production, and production) in a smooth way. You can create an environment that represents your Azure Web App.
@@ -169,14 +169,14 @@ The release workflow is composed of one task added with the Azure App Service De
     -   Repository: add your image name defined in the build: `aiduet`
     -   Tag: use the predefined tag: `$(Build.BuildId)`
 
-    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image27.png)
+    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image27.PNG)
 
 2.  Configure the **Application Settings** of the Web App with these values (format: name – value):
     -   `DOCKER_REGISTRY_SERVER_URL - https://$(docker.registry)`
     -   `DOCKER_REGISTRY_SERVER_USERNAME - $(docker.username)`
     -   `DOCKER_REGISTRY_SERVER_PASSWORD - $(docker.password)`
 
-    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image28.png)
+    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image28.PNG)
 
 >   **Note**: these App settings will change your Web App (Linux) App settings on Microsoft Azure when you release a new version.
 ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image29.png)
