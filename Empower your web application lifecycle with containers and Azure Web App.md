@@ -121,7 +121,7 @@ Next steps will build and push our container image to our repository. To do it, 
     For the build operation, select your **Azure Container Registry** (first you need to select your Azure subscription), the **Build an image** action, and use the predefined  **Dockerfile**. Define the **Image Name** and select **Include Latest Tag**. The Image Name need to be: `$(RegistryURL)/aiduet:$(Build.BuildId)`.
 3.  For the image, configure a second step that uses the docker push command by adding a second Docker task.
 
-    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image19.PNG)
+    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image19.png)
 
     For the push operation, select your **Azure Container Registry** (first you need to select your Azure subscription), the **Push an image** action, enter the **Image Name** `$(RegistryURL)/aiduet:$(Build.BuildId)` and select **Include Latest Tag**.
 
