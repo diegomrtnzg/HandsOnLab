@@ -5,15 +5,15 @@ If you want to have a copy of the Linux environment in your own Azure subscripti
 1.  **Open Edge** or your favorite browser and open the Azure Portal present in the following URL: <http://portal.azure.com>
 2. From the top left corner of the web page, select the *New* option. If you don’t see it you would need to click the “*hamburger”* menu to open the blade or click directly in the green plus sign.
 
-    ![](./media/image72.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image1.PNG)
 
 3. In the search box introduce *Ubuntu Server 16.04 LTS* and click *Intro* in your keyboard.
 
-    ![](./media/image76.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image12.PNG)
 
 4.  The search results would appear. Select the option that matches the text introduce in the step before. A new blade would open and you would need to click the *Create* button in order to configure the virtual machine.
 
-    ![](./media/image80.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image3.PNG)
 
 5.  The creation of the VM has four steps, fill the form with the following information. 
     1. **Basics:**
@@ -36,34 +36,34 @@ If you want to have a copy of the Linux environment in your own Azure subscripti
 Creating a new virtual machine takes between 4-6 minutes. You can check if the deployment has succeeded click in the bell
 on the top right menu.
 
-    ![](./media/image90.png)
+![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image13.PNG)
 
 
 ### Installing Docker on Linux 
 1.  In the search box on the top of the portal look for the VM **iil-lab-xxx** where **xxx** is the random number you chose previously. Select the virtual machine.
 
-    ![](./media/image94.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image4.PNG)
 
 2.  A new blade is opened with the details of the VM. Select **Connect** in the top menu and copy the IP at the end of the command.
 
-    ![](./media/image98.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image5.PNG)
 
 3.  Open the *Start Menu* and search for *Putty.* Open the program.
 
-    ![](./media/image102.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image6.PNG)
 
 4.  Introduce the IP in the *Host Name* text box. Select *SSH* as protocol and click *Open.*
 
-    ![](./media/image106.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image7.PNG)
 
 5.  Accept the alert box to include the server key in your local computer and complete the login introducing the username *iil-lab* and the password *Passw0rd!Passw0rd!*
 6.  One inside the virtual machine we need to install the *Docker* package. Execute the following command as sudo and introduce again your password: `sudo apt-get install docker.io`
 
-    ![](./media/image110.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image8.PNG)
 
 7. It would take a few minutes to complete the installation of the package. You can check that everything is correct running the following command. You would see the current docker installed version: `sudo docker -v`
 
-    ![](./media/image114.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image9.PNG)
 
 ## Deploying a Windows VM 
 
@@ -78,18 +78,18 @@ to have your own Windows VM configured.
     don’t see it you would need to click the “*hamburger”* menu to open the
     blade or click directly in the green plus sign.
 
-    ![](./media/image84.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image10.PNG)
 
 3.  In the search box introduce *Windows Server 2016 Datacenter - with
     Containers* and click *Intro* in your keyboard.
 
-    ![](media/c94ce8b591806c3ab3d2eb997f2dcca5.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image11.PNG)
 
 4.  The search results would appear. Select the option that matches the text
     introduce in the step before. A new blade would open and you would need to
     click the *Create* button in order to configure the virtual machine.
 
-    ![](media/62807be613f327f696b5a051c2c47569.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image12.PNG)
 
 5.  The creation of the VM has four steps, fill the form with the following
     information. 
