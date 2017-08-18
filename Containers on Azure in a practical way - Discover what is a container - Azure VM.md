@@ -1,4 +1,4 @@
-#Create Azure VMs
+# Create Azure VMs
 
 ## Deploying a Linux VM 
 If you want to have a copy of the Linux environment in your own Azure subscription to continue with the lab after the event you can follow these steps to have your own Linux VM configured.
@@ -9,7 +9,7 @@ If you want to have a copy of the Linux environment in your own Azure subscripti
 
 3. In the search box introduce *Ubuntu Server 16.04 LTS* and click *Intro* in your keyboard.
 
-    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image12.PNG)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image2.PNG)
 
 4.  The search results would appear. Select the option that matches the text introduce in the step before. A new blade would open and you would need to click the *Create* button in order to configure the virtual machine.
 
