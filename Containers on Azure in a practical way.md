@@ -1,4 +1,5 @@
 # Containers on Azure in a practical way
+*Hands on Lab created by [Carlos Jimenez](https://github.com/cjaliaga) and [Jose Angel Fernandez](https://github.com/jangelfdez). Updated by Diego Martinez with Azure Container Instances*
 
 ## Requirements
 Microsoft Azure subscription
