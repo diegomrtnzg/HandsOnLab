@@ -200,7 +200,11 @@ Private SSH Key format
     in the public nodes of our cluster in order to be able to access from the
     internet.
 
-        ```"acceptedResourceRoles": [ "slave_public" ]```
+```json
+"acceptedResourceRoles": [ 
+    "slave_public" 
+    ]
+```
 
 21.  Click on **Review & Run** and wait for the application to be deployed.
 

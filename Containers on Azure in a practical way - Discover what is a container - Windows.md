@@ -3,7 +3,7 @@
 ## Requirements
 Windows Containers environment:
 -   Windows machine with Containers
--   Azure VM (Windows OS): [Instructions](Containers%20on%20Azure%20in%20a%20practical%20way%20-%20Discover%20what%20is%20a%20container%20-%20Azure%20VM.md)
+-   Azure VM (Windows OS): [How to create](Containers%20on%20Azure%20in%20a%20practical%20way%20-%20Discover%20what%20is%20a%20container%20-%20Azure%20VM.md)
     -   RDP connection tool
 
 ## Step by step: Running our first container on Windows

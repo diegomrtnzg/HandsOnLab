@@ -3,7 +3,7 @@
 ## Requirements
 Linux Containers environment:
 -   Linux machine with Docker
--   Azure VM (Linux OS): [Instructions](Containers%20on%20Azure%20in%20a%20practical%20way%20-%20Discover%20what%20is%20a%20container%20-%20Azure%20VM.md)
+-   Azure VM (Linux OS): [How to create](Containers%20on%20Azure%20in%20a%20practical%20way%20-%20Discover%20what%20is%20a%20container%20-%20Azure%20VM.md)
     -   SSH connection tool:
         -   Windows: [Bash on Ubuntu on Windows](https://msdn.microsoft.com/es-es/commandline/wsl/about) or [PuTTY](http://www.putty.org/)
 
