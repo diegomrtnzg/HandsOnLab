@@ -139,11 +139,11 @@ Private SSH Key format
 11.  DC/OS doesn’t expose its services directly. An ssh tunnel to the master node is required. The next steps show how to connect using Windows. 
         1.  Open *Putty*. 
 
-            ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image29.PNG)
+            ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image17.PNG)
 
         2.  In the *Host Name* introduce **iillab\@\<your master FQDN\>** and in the *Port* introduce **2200**
 
-            ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image18.PNG)
+            ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image29.PNG)
 
         3.  In the SSH/Auth window, in the *Private key file for authentication*, browse and select your privatekey (ppk file).
 
