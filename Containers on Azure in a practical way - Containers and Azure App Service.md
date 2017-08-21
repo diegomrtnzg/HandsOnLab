@@ -288,3 +288,7 @@ the image
     <http://iil-linux-web-xxx.azurewebsites.net/>
 
     ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image32.PNG)
+
+## Next steps
+[SSH support for Azure Web App on Linux](https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-ssh-support)
+[Continuous deployment with Azure Web App on Linux](https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-ci-cd)

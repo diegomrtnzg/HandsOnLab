@@ -62,7 +62,7 @@ Once the container moves to the **Succeeded** state, you can reach it in the bro
 
 ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Deploying%20a%20container%20to%20Azure%20Container%20Instance/image3.png)
 
-## Pull the container logs
+### Pull the container logs
 
 You can pull the logs for the container you created using the `logs` command:
 
@@ -78,10 +78,15 @@ listening on port 80
 ::ffff:10.240.255.105 - - [21/Jul/2017:00:01:46 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "http://104.210.39.122/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36"
 ```
 
-## Delete the container
+### Delete the container
 
 When you are done with the container, you can remove it using the `delete` command:
 
 ```azurecli-interactive
 az container delete --name mycontainer --resource-group myResourceGroup
 ```
+
+## Next steps
+[Deploy a container group](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-multi-container-group)
+[Mounting an Azure file share with Azure Container Instances](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-mounting-azure-files-volume)
+[Deploy to Azure Container Instances from the Azure Container Registry](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-using-azure-container-registry)

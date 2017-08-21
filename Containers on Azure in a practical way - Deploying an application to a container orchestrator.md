@@ -263,3 +263,9 @@ like Mesos DNS or Mesos Load Balancer in order to be able to properly route
 the request to the containers running on different nodes and ports. That
 scenario is out of scope but you can get more information on the “Deploying
 Services and Pods” section of the DC/OS documentation
+
+## Next steps
+[Container management through the REST API](https://github.com/DxNext/2016-Oct-L2/blob/master/Linux/Module6-AzureContainerServices/container-service-mesos-marathon-rest.md)
+[Enable public access to an Azure Container Service application](https://github.com/DxNext/2016-Oct-L2/blob/master/Linux/Module6-AzureContainerServices/container-service-enable-public-access.md)
+[Load balance containers in an Azure Container Service cluster](https://github.com/DxNext/2016-Oct-L2/blob/master/Linux/Module6-AzureContainerServices/container-service-load-balancing.md)
+[Monitor an Azure Container Service DC/OS cluster with Operations Management Suite](https://docs.microsoft.com/en-us/azure/container-service/dcos-swarm/container-service-monitoring-oms)
