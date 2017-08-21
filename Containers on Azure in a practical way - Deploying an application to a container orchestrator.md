@@ -6,8 +6,7 @@ SSH connection tool:
 -   Windows: [PuTTY](http://www.putty.org/)
 
 ## Step by step
-In the previous exercise we have reviewed what a container is and how can it be
-run in a single host. However, in a production ready scenario, a single host
+In a production ready scenario, a single host
 application is something not recommendable. Our application would lack of high
 availability and a limited scalability to the compute and memory available on
 that single host.
