@@ -214,7 +214,7 @@ Container Registry.
 1.  Wait until the image is being built. It could take a couple of minutes. Once
     the process ends you would see *“Successfully built”*
 
-    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image125.PNG)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image25.PNG)
 
 1.  Now that image is built we would push it into our Azure Container Registry specifying the image’s tag that we would push. The tag it’s the one specified in the step number 15:
 *illregistryxxx.azurecr.io/ill-lab*. Execute the following command to push
