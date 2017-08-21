@@ -1,4 +1,4 @@
-# Deploying an application to a container orchestrator
+# Deploying an application to Azure Container Service
 
 ## Requirements
 SSH connection tool:
