@@ -123,8 +123,7 @@ Private SSH Key format
 
 8.  Finish the wizard selecting *OK.* Creating a new Azure Container Service
     instance takes several minutes while the virtual machines are provisioned
-    and the cluster is deployed. If you want to get the most of your time,
-    continue with the exercise 3 and come back later to complete this one.
+    and the cluster is deployed.
 
 9.  After the deployment has completed, you would find a collection of resources
     inside your resource group. Look for the instance of *Container Service* and
