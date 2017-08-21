@@ -145,8 +145,6 @@ Visual Studio Team Services allows you to [manage releases across environments](
 ### Initial release setup
 1.  To create a release definition, click **Releases** \> **+ Release**
 
-    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image23.png)
-
     ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20Web%20App/image24.png)
 
 2.  Select the Azure **App Service Deployment** template
