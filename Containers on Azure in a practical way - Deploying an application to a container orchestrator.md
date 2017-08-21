@@ -192,12 +192,14 @@ Private SSH Key format
     You can see the options that we have configured translated to the JSON file.
 
         ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image40.PNG)
+        
+> **Note**: check the JSON is the same as the image
 
 20.  At the end of the JSON file add a colon after the last element of the JSON
     document and include the following text. We want to deploy our application
     in the public nodes of our cluster in order to be able to access from the
     internet.
-
+    
 ```json
 "acceptedResourceRoles": [ 
     "slave_public" 
