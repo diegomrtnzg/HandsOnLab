@@ -200,7 +200,7 @@ Container Registry.
 
     ```sudo docker login illregistryxxx.azurecr.io```
 
-    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image23.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image23.PNG)
 
 1.  Once we have logged in into the Azure Container Registry we would build our
     image tagging it according to the registry where we would upload it. The tag
