@@ -136,7 +136,7 @@ Private SSH Key format
 
         ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image35.PNG)
 
-11.  DC/OS doesn’t expose its services directly. An ssh tunnel to the master node is required. The next steps show you how to connect using Windows. 
+11.  DC/OS doesn’t expose its services directly. An ssh tunnel to the master node is required. The next steps show how to connect using Windows. 
         1.  Open *Putty*. 
 
             ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image29.PNG)
