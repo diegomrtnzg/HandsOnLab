@@ -6,8 +6,7 @@ SSH connection tool:
 -   Windows: [PuTTY](http://www.putty.org/)
 
 ## Step by step
-In the previous exercise we have reviewed what a container is and how can it be
-run in a single host. However, in a production ready scenario, a single host
+In a production ready scenario, a single host
 application is something not recommendable. Our application would lack of high
 availability and a limited scalability to the compute and memory available on
 that single host.
@@ -124,8 +123,7 @@ Private SSH Key format
 
 8.  Finish the wizard selecting *OK.* Creating a new Azure Container Service
     instance takes several minutes while the virtual machines are provisioned
-    and the cluster is deployed. If you want to get the most of your time,
-    continue with the exercise 3 and come back later to complete this one.
+    and the cluster is deployed.
 
 9.  After the deployment has completed, you would find a collection of resources
     inside your resource group. Look for the instance of *Container Service* and
@@ -138,14 +136,14 @@ Private SSH Key format
 
         ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image35.PNG)
 
-11.  DC/OS doesn’t expose its services directly. An ssh tunnel to the master node is required. The next steps show you how to connect using Windows. 
+11.  DC/OS doesn’t expose its services directly. An ssh tunnel to the master node is required. The next steps show how to connect using Windows. 
         1.  Open *Putty*. 
 
-            ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image29.PNG)
+            ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image17.PNG)
 
         2.  In the *Host Name* introduce **iillab\@\<your master FQDN\>** and in the *Port* introduce **2200**
 
-            ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image18.PNG)
+            ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image29.PNG)
 
         3.  In the SSH/Auth window, in the *Private key file for authentication*, browse and select your privatekey (ppk file).
 
@@ -194,12 +192,14 @@ Private SSH Key format
     You can see the options that we have configured translated to the JSON file.
 
         ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Discover%20what%20is%20a%20container/image40.PNG)
+        
+> **Note**: check the JSON is the same as the image
 
 20.  At the end of the JSON file add a colon after the last element of the JSON
     document and include the following text. We want to deploy our application
     in the public nodes of our cluster in order to be able to access from the
     internet.
-
+    
 ```json
 "acceptedResourceRoles": [ 
     "slave_public" 
@@ -263,9 +263,12 @@ like Mesos DNS or Mesos Load Balancer in order to be able to properly route
 the request to the containers running on different nodes and ports. That
 scenario is out of scope but you can get more information on the “Deploying
 Services and Pods” section of the DC/OS documentation
+<<<<<<< HEAD
 
 ## Next steps
 [Container management through the REST API](https://github.com/DxNext/2016-Oct-L2/blob/master/Linux/Module6-AzureContainerServices/container-service-mesos-marathon-rest.md)
 [Enable public access to an Azure Container Service application](https://github.com/DxNext/2016-Oct-L2/blob/master/Linux/Module6-AzureContainerServices/container-service-enable-public-access.md)
 [Load balance containers in an Azure Container Service cluster](https://github.com/DxNext/2016-Oct-L2/blob/master/Linux/Module6-AzureContainerServices/container-service-load-balancing.md)
 [Monitor an Azure Container Service DC/OS cluster with Operations Management Suite](https://docs.microsoft.com/en-us/azure/container-service/dcos-swarm/container-service-monitoring-oms)
+=======
+>>>>>>> b9fc60fae92e3c21bb8340a969a77b3bdf059814

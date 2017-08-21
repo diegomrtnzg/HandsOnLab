@@ -200,7 +200,7 @@ Container Registry.
 
     ```sudo docker login illregistryxxx.azurecr.io```
 
-    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image23.png)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image23.PNG)
 
 1.  Once we have logged in into the Azure Container Registry we would build our
     image tagging it according to the registry where we would upload it. The tag
@@ -214,7 +214,7 @@ Container Registry.
 1.  Wait until the image is being built. It could take a couple of minutes. Once
     the process ends you would see *“Successfully built”*
 
-    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image125.PNG)
+    ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image25.PNG)
 
 1.  Now that image is built we would push it into our Azure Container Registry specifying the image’s tag that we would push. The tag it’s the one specified in the step number 15:
 *illregistryxxx.azurecr.io/ill-lab*. Execute the following command to push
@@ -288,7 +288,10 @@ the image
     <http://iil-linux-web-xxx.azurewebsites.net/>
 
     ![](media/Containers%20on%20Azure%20in%20a%20practical%20way/Containers%20and%20Azure%20App%20Service/image32.PNG)
+<<<<<<< HEAD
 
 ## Next steps
 [SSH support for Azure Web App on Linux](https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-ssh-support)
 [Continuous deployment with Azure Web App on Linux](https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-ci-cd)
+=======
+>>>>>>> b9fc60fae92e3c21bb8340a969a77b3bdf059814
