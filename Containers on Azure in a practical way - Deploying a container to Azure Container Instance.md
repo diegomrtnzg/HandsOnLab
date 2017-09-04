@@ -26,6 +26,7 @@ The following example creates a resource group named *myResourceGroup* in the *e
 az group create --name myResourceGroup --location eastus
 ```
 
+
 #### Create a container
 
 You can create a container by providing a name, a Docker image, and an Azure resource group. You can optionally expose the container to the internet with a public IP address. In this case, we'll use a container that hosts a very simple web app written in [Node.js](http://nodejs.org).
@@ -88,5 +89,7 @@ az container delete --name mycontainer --resource-group myResourceGroup
 
 ## Next steps
 [Deploy a container group](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-multi-container-group)
+
 [Mounting an Azure file share with Azure Container Instances](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-mounting-azure-files-volume)
+
 [Deploy to Azure Container Instances from the Azure Container Registry](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-using-azure-container-registry)
