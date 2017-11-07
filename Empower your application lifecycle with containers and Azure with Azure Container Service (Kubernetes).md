@@ -11,7 +11,7 @@ Nowadays, one of the biggest challenges when developing modern applications for 
 
 This lab is based on a simple application, available on [GitHub](https://github.com/jcorioland/MyShop/tree/docker-linux), developed with ASP.NET Core. The application is composed of four different services: three web APIs and one web front end.
 
-![]()
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image1.PNG)
 
 The objective is to deliver this application continuously in a Kubernetes cluster using Visual Studio Team Services. Here is a brief explanation of the steps:
 1.  Code changes are committed to the source code repository
@@ -30,7 +30,7 @@ Before starting this lab, you need to complete the following tasks:
 To create a new Kubernetes cluster in Azure Container Service, follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
 3. Type this command to create a new resource group:
 ```
 az group create --name myACSGroup --location westeurope
@@ -57,7 +57,7 @@ Azure Container Service (AKS) is a new managed Kubernetes service.
 To create a new Kubernetes cluster in Azure Container Service (AKS), follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
 3. Type this command to register the AKS provider:
 ```
 az provider register -n Microsoft.ContainerService
@@ -87,7 +87,7 @@ cat config
 To create a new Azure Container Registry, follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
 3. Type this command to create a new Azure Container Registry:
 > **Note**: replace [random] with any random string.
 ```
@@ -101,14 +101,14 @@ You need to create a Visual Studio Team Services account with the same email add
 ## Step 1: Configure your Visual Studio Team Services account
 In this section, you can configure your Visual Studio Team Services account. To configure VSTS Services Endpoints, in your Visual Studio Team Services project, click the **Settings** icon in the toolbar, and select **Services**.
 
-![]()
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image3.PNG)
 
 ### Connect Visual Studio Team Services and Azure account
 Set up a connection between your VSTS project and your Azure account.
 1.  On the left, click **New Service Endpoint** \> **Azure Resource Manager**.
 2.  To authorize VSTS to work with your Azure account, select your     **Subscription** and click **OK**.
     
-    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image6.png)
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image4.PNG)
 
 ### Connect VSTS to your Azure Container Service cluster
 The last step before getting into the CI/CD pipeline is to configure external connections to your Kubernetes cluster in Azure.
@@ -127,21 +127,21 @@ All the configuration is done. In the next steps, you can create the CI/CD pipel
 In this step, you can import the GitHub project to your VSTS project and use it in the next steps.
 1.  To import the GitHub code, click **Code**, the **name of your project     repository** (*MyShop* in the screen) and **Import repository**.
     
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image5.PNG)
 
 4.  Copy the GitHub project URL to import it and click **Import**. Clone URL: `https://github.com/jcorioland/MyShop`
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image6.PNG)
 
 3.  When VSTS finishes to import the code, you will see the the project:
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image7.PNG)
 
 4.  We will use the Kubernetes branch. Select it. 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image8.PNG)
 
 5.  Edit the file *src/myshop-deployment.yml*, delete the content and paste this:
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image9.PNG)
 ```
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -191,7 +191,7 @@ spec:
     app: myshop-deployment
 ```
 6. Click **Commit** to save the modification.
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image10.PNG)
 
 ## Step 3: Create the build definition
 In this step, you can set up a build definition for your VSTS project and define the build workflow for your container images
@@ -199,28 +199,28 @@ In this step, you can set up a build definition for your VSTS project and define
 ### Initial definition setup
 1.  To create a build definition, connect to your Visual Studio Team Services project and click **Build & Release**. In the **Build definitions** section, click **+ New**.
     
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image11.PNG)
 
 2.  Select the **Empty process**.
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image12.PNG)
 
 3.  Then, click the **Variables** tab and create a new variable: **RegistryURL**. Paste the values of your Registry URL.  You saved it in **Step 0: Prerequisites - Create an Azure Container Registry**
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image13.PNG)
 
 4.  On the **Build Definitions** page, open the **Triggers** tab and configure the build to use continuous integration with the fork of the MyShop project that you created in the Step 2. Make sure that you select *kubernetes* as the **Branch specification**.
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image14.PNG)
 
 5.  Finally, click the **Tasks** tab and configure the Agent queue to **Hosted Linux Preview**.
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image15.PNG)
 
 ### Define the build workflow
 The next steps define the build workflow. First, you need to configure the source of the code. To do it, select **This project** and your **repository** and **branch** (kubernetes, you will find it in *All branches*).
 
-![]()
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image16.PNG)
 
 There are five container images to build for the *MyShop* application. Each image is built using the Dockerfile located in the project folders:
 1.  ProductsApi
@@ -232,11 +232,11 @@ There are five container images to build for the *MyShop* application. Each imag
 You need two Docker steps for each image, one to build the image, and one to push the image into the Azure container registry.
 1.  To add a step in the build workflow, click **+ Add build step** and select **Docker**.
 
-    ![](+)
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image17.PNG)
 
 2.  For each image, configure one step that uses the `docker build` command.
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image18.PNG)
 
     For the build operation, select your Azure Container Registry, the **Build an image** action, and the Dockerfile that defines each image. Set the **Working Directory** as the Dockerfile root directory, define the **Image Name**, and select **Include Latest Tag**.
 
@@ -249,41 +249,56 @@ You need two Docker steps for each image, one to build the image, and one to pus
 
 3.  For each image, configure a second step that uses the docker push command by adding a second Docker task.
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image19.PNG)
 
     For the push operation, select your Azure container registry, the **Push an image** action, enter the **Image Name** that is built in the previous step and select **Include Latest Tag**.
 
 4.  After you configure the build and push steps for each of the five images, add three more steps in the build workflow.
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image20.PNG)
 
     a.   A command-line task that uses a bash script to replace the *RegistryURL* occurrence in the myshop-deployment.yml file with the RegistryURL variable.
-        `-c "sed -i 's/RegistryURL/$(RegistryURL)/g' myshop-deployment.yml"`
+        `-c "sed -i 's/RegistryURL/$(RegistryURL)/g' src/myshop-deployment.yml"`
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image21.PNG)
 
     b.  A command-line task that uses a bash script to replace the *Tag* occurrence in the myshop-deployment.yml file with the BuildId variable.
-        `-c "sed -i 's/Tag/$(Build.BuildId)/g' myshop-deployment.yml"`
+        `-c "sed -i 's/Tag/$(Build.BuildId)/g' src/myshop-deployment.yml"`
 
     c.  A task that drops the updated Compose file as a build artifact so it can be used in the release. See the following screen for details.
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image22.PNG)
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image23.PNG)
 
 ### Test the build
 To test the build, you need to:
 1.  Click **Save & queue** to test your build definition.
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image24.PNG)
 
 2.  Click **Queue.**
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image25.PNG)
 
 3.  If the **Build** is correct, you have to see a similar screen:
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image26.PNG)
+
+## Step 5: Test the CI/CD pipeline and access to the application
+Now that you are done with the configuration, it's time to test this new CI/CD pipeline. The easiest way to test it is to update the source code and commit the changes into your Visual Studio Team Services repository. A few seconds after you push the code, you will see a new build running in Visual Studio Team Services. Once completed successfully, a new release is triggered and deployed the new version of the application on the Azure Container Service cluster.
+
+### Access
+To access the application, follow these steps:
+1. Go to [Azure Portal](https://portal.azure.com/)
+2. Open the Cloud Shell and select Bash (Linux)
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
+3. Type this command to list your ACS cluster IPs (master node and services):
+```
+az network public-ip list -g myACSGroup --query "[].[dnsSettings.domainNameLabel, ipAddress]" --out table
+```
+4. Look for a IP without the name XXXXmgmt, copy the ipAddress and access it via your web browser. You will see your home page of your app running on ACS on Microsoft Azure.
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image38.png)
 
 ## Next steps
 -   For more information about CI/CD with Visual Studio Team Services, see the [VSTS Build overview](https://www.visualstudio.com/docs/build/overview).

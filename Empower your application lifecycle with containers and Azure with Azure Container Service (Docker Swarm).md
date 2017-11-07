@@ -1,4 +1,4 @@
-# Hand On Lab: Empower your application lifecycle with containers and Azure with Azure Container Service
+# Hand On Lab: Empower your application lifecycle with containers and Azure with Azure Container Service (Docker Swarm Mode)
 
 *This lab is based on* [Full CI/CD pipeline to deploy a multi-container application on Azure Container Service with Docker Swarm using Visual Studio Team Services](https://github.com/Microsoft/azure-docs/blob/master/articles/container-service/container-service-docker-swarm-setup-ci-cd.md) *documentation.*
 
