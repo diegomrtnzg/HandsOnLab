@@ -114,7 +114,7 @@ Set up a connection between your VSTS project and your Azure account.
 1.  On the left, click **New Service Endpoint** \> **Azure Resource Manager**.
 2.  To authorize VSTS to work with your Azure account, select your     **Subscription** and click **OK**.
     
-    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image6.1.PNG)
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image6.1.png)
 
 ### Connect VSTS to your Azure Container Service cluster
 The last step before getting into the CI/CD pipeline is to configure external connections to your Kubernetes cluster in Azure.
