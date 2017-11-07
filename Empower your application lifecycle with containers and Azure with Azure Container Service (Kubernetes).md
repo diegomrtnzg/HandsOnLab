@@ -30,7 +30,9 @@ Before starting this lab, you need to complete the following tasks:
 To create a new Kubernetes cluster in Azure Container Service, follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
+
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
+
 3. Type this command to create a new resource group:
 ```
 az group create --name myACSGroup --location westeurope
@@ -57,7 +59,9 @@ Azure Container Service (AKS) is a new managed Kubernetes service.
 To create a new Kubernetes cluster in Azure Container Service (AKS), follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
+    
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
+
 3. Type this command to register the AKS provider:
 ```
 az provider register -n Microsoft.ContainerService
@@ -87,7 +91,9 @@ cat config
 To create a new Azure Container Registry, follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
+   
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
+
 3. Type this command to create a new Azure Container Registry:
 > **Note**: replace [random] with any random string.
 ```
@@ -108,7 +114,7 @@ Set up a connection between your VSTS project and your Azure account.
 1.  On the left, click **New Service Endpoint** \> **Azure Resource Manager**.
 2.  To authorize VSTS to work with your Azure account, select your     **Subscription** and click **OK**.
     
-    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image4.PNG)
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image6.1.PNG)
 
 ### Connect VSTS to your Azure Container Service cluster
 The last step before getting into the CI/CD pipeline is to configure external connections to your Kubernetes cluster in Azure.
@@ -117,7 +123,7 @@ The last step before getting into the CI/CD pipeline is to configure external co
     - **Server URL**: you can find it in the copied text with the name **server**: https://XXXX.cloudapp.azure.com
     - **Kubeconfig**: the whole copied text (with the empty lines at the beginning and the end of the file)
 
-    ![]()
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image4.PNG)
 
 > **Note**: you need the data from Step 0: Prerrequisites, Create a Swarm Mode cluster in Azure Container Service with ACS Engine.
 
@@ -138,9 +144,11 @@ In this step, you can import the GitHub project to your VSTS project and use it 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image7.PNG)
 
 4.  We will use the Kubernetes branch. Select it. 
+    
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image8.PNG)
 
 5.  Edit the file *src/myshop-deployment.yml*, delete the content and paste this:
+   
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image9.PNG)
 ```
 apiVersion: extensions/v1beta1
@@ -191,6 +199,7 @@ spec:
     app: myshop-deployment
 ```
 6. Click **Commit** to save the modification.
+    
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image10.PNG)
 
 ## Step 3: Create the build definition
@@ -292,12 +301,15 @@ Now that you are done with the configuration, it's time to test this new CI/CD p
 To access the application, follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
+    
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
+
 3. Type this command to list your ACS cluster IPs (master node and services):
 ```
 az network public-ip list -g myACSGroup --query "[].[dnsSettings.domainNameLabel, ipAddress]" --out table
 ```
 4. Look for a IP without the name XXXXmgmt, copy the ipAddress and access it via your web browser. You will see your home page of your app running on ACS on Microsoft Azure.
+  
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image38.png)
 
 ## Next steps
