@@ -290,14 +290,62 @@ To test the build, you need to:
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image25.PNG)
 
-3.  If the **Build** is correct, you have to see a similar screen:
+3.  You can check the build status by click on **#XX** in the green bar. If the **Build** is correct, you have to see a similar screen:
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image26.PNG)
+
+## Step 4: Create the release definition
+Visual Studio Team Services allows you to [manage releases across environments](https://www.visualstudio.com/team-services/release-management/). You can enable continuous deployment to make sure that your application is deployed on your different environments (such as dev, test, pre-production, and production) in a smooth way. You can create an environment that represents your Azure Container Service (Kubernetes) cluster.
+
+### Initial release setup
+1.  To create a release definition, click **Releases** \> **+ New definition**
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image27.PNG)
+
+2.  Select the **Empty process**
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image28.PNG)
+
+3.  To configure the artifact source, Click **+ Add artifact**. Here, link this new release definition to the build that you defined in the previous step. After that, the *src/myshop-deployment.yml* file is available in the release process.
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image29.PNG)
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image30.PNG)
+
+3.  To configure the release trigger, click the **thunderbolt** and enable the continuous deployment trigger. Set the trigger to use the kubernetes branch. This setting ensures that a new release starts when the build completes successfully.
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image31.PNG)
+
+### Define the release workflow
+The release workflow is composed of one task that you need to add.
+1.  Add a new **Deploy to Kubernetes** task.
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image32.PNG)
+
+2.  Configure it with these values (use your own Kubernetes Service Connection, Azure subscription and Azure Container Registry names):
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image33.PNG)
+
+### Test the release
+It´s time to test the release on the Azure Container Service:
+1.  Click **Save** to save the release definition.
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image34.PNG)
+
+2.  Click **Release** and **Create** to start the release.
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image35.PNG)
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image36.PNG)
+
+4.  You can check the release status by click on **Release-X** in the green bar. If the **Release** is correct, the release status will show you a similar screen:
+
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image37.PNG)
 
 ## Step 5: Test the CI/CD pipeline and access to the application
 Now that you are done with the configuration, it's time to test this new CI/CD pipeline. The easiest way to test it is to update the source code and commit the changes into your Visual Studio Team Services repository. A few seconds after you push the code, you will see a new build running in Visual Studio Team Services. Once completed successfully, a new release is triggered and deployed the new version of the application on the Azure Container Service cluster.
 
-### Access
+### Access the application
 To access the application, follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
