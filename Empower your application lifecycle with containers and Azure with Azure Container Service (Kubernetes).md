@@ -3,16 +3,38 @@
 ## Requirements
 Microsoft Azure subscription
 
-## Step by step
-Nowadays, one of the biggest challenges when developing modern applications for the cloud is being able to deliver these applications continuously. In this article, you will learn how to implement a full continuous integration and deployment (CI/CD) pipeline using:
--   Azure Container Service with Kubernetes
--   Azure Container Registry
--   Visual Studio Team Services
+## Introduction
+Nowadays, one of the biggest challenges when developing modern applications for the cloud is being able to deliver these applications continuously. 
 
-This lab is based on a simple application, available on [GitHub](https://github.com/jcorioland/MyShop/tree/docker-linux), developed with ASP.NET Core. The application is composed of four different services: three web APIs and one web front end.
+In this Hands on Lab, you will learn how to implement a full continuous integration and deployment (CI/CD) pipeline using:
+-   Azure Container Service with Kubernetes: your own infraestructure to run your containers.
+-   Azure Container Registry: your own private container repository to save your containers.
+-   Visual Studio Team Services: the service to run your lifecycle application tasks.
 
-![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image1.PNG)
+This lab is based on a multi-container web application, available on [GitHub](https://github.com/Azure-Samples/azure-voting-app-redis), developed with Python / Flask and the data component is using Redis.
 
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image38.PNG)
+
+### Containers in Azure
+The process to build a container is:
+1. Pull the base container image to your dev environment
+2. Customize / create your custom image using the base container image
+3. Push your customize container to your registry
+4. Deploy the container to your environments
+
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/Slide6.PNG)
+
+In Azure, we have several servicies to use containers:
+[Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/): **Docker private registry** in the cloud.
+[IaaS](https://azure.microsoft.com/en-us/overview/what-is-iaas/): **create your own container environment** using IaaS services: Virtual Machines, VM Scale Set, Azure Batch...
+[Azure Container Service](https://azure.microsoft.com/en-us/services/container-service/): **create your container environment in the easiest way** using Docker Swarm, DC/OS or Kubernetes orchestrator. The new Azure Container Service (AKS) is a managed Kubernetes environment.
+[Azure Service Fabric](https://azure.microsoft.com/en-us/services/service-fabric/): microservices orquestator which allows you to use containers. The only platform with **GA for Windows containers**.
+[Azure Container Instance](https://azure.microsoft.com/en-us/services/container-instances/) *preview*: **Container as a Service**: run containers with a single command.
+[Web App for Containers](https://azure.microsoft.com/en-us/services/app-service/containers/): **PaaS service to run containerized web app**.
+
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/Slide7.PNG)
+
+### Step by step
 The objective is to deliver this application continuously in a Kubernetes cluster using Visual Studio Team Services. Here is a brief explanation of the steps:
 1.  Code changes are committed to the source code repository
 2.  Code repository triggers a build in Visual Studio Team Services
@@ -22,6 +44,8 @@ The objective is to deliver this application continuously in a Kubernetes cluste
 6.  The release runs deploy and update kubectl commands on the Azure Container Service cluster master node
 7.  Kubernetes on the cluster pulls the latest version of the images
 8.  The new version of the application is deployed
+
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/Slide17.png)
 
 ## Step 0: Prerequisites
 Before starting this lab, you need to complete the following tasks:
@@ -37,12 +61,12 @@ To create a new Kubernetes cluster in Azure Container Service, follow these step
 ```
 az group create --name myACSGroup --location westeurope
 ```
-4. Type this command to create a new ACS Kubernetes cluster (it will take a while):
-> **Note**: if you are using a trial subscription, add `--agent-count 1` at the end of the command
+4. Type this command to create a new ACS Kubernetes cluster and generate new SSH keys(it will take a while):
+> **Note**: if you are using a trial subscription, add `--agent-count 1` at the end of the command to only create one agent node
 ```
 az acs create --orchestrator-type kubernetes --resource-group myACSGroup --name myK8sCluster --generate-ssh-keys
 ```
-5. Type this command to download the credentials to connect via kubectl:
+5. Type this command to download the credentials you will need to connect via kubectl (the Kubernetes CLI):
 ```
 az acs kubernetes get-credentials --resource-group=myACSGroup --name=myK8sCluster
 ```
@@ -70,12 +94,12 @@ az provider register -n Microsoft.ContainerService
 ```
 az group create --name myACSGroup --location westeurope
 ```
-4. Type this command to create a new ACS Kubernetes cluster (it will take a while):
-> **Note**: if you are using a trial subscription, add `--agent-count 1` at the end of the command
+4. Type this command to create a new ACS Kubernetes cluster and generate new SSH keys(it will take a while):
+> **Note**: if you are using a trial subscription, add `--agent-count 1` at the end of the command to only create one agent node
 ```
 az aks create --resource-group myACSGroup --name myK8sCluster --generate-ssh-keys
 ```
-6. Type this command to download the credentials to connect via kubectl:
+6. Type this command to download the credentials to connect via kubectl (the Kubernetes CLI):
 ```
 az aks kubernetes get-credentials --resource-group=myACSGroup --name=myK8sCluster
 ```
@@ -85,7 +109,6 @@ cd .kube
 cat config
 ```
 > **Note**: copy the empty lines at the beginning and the end of the file.
-
 
 ### Create an Azure Container Registry
 To create a new Azure Container Registry, follow these steps:
@@ -97,7 +120,7 @@ To create a new Azure Container Registry, follow these steps:
 3. Type this command to create a new Azure Container Registry:
 > **Note**: replace [random] with any random string.
 ```
-az acr create --name myContainerRegistry[random] --resource-group myACSGroup --sku Basic
+az acr create --name myContainerRegistry[random] --resource-group myACSGroup --sku Basic --admin-enabled true
 ```
 It will show you some info about the Azure Container Registry. Copy and save the loginServer URL, we will need it later: XXXX.azurecr.io
 
@@ -112,7 +135,7 @@ In this section, you can configure your Visual Studio Team Services account. To 
 ### Connect Visual Studio Team Services and Azure account
 Set up a connection between your VSTS project and your Azure account.
 1.  On the left, click **New Service Endpoint** \> **Azure Resource Manager**.
-2.  To authorize VSTS to work with your Azure account, select your     **Subscription** and click **OK**.
+2.  To authorize VSTS to work with your Azure account, select your  **Subscription** and click **OK**.
     
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image6.1.png)
 
@@ -131,11 +154,11 @@ All the configuration is done. In the next steps, you can create the CI/CD pipel
 
 ## Step 2: Import the code
 In this step, you can import the GitHub project to your VSTS project and use it in the next steps.
-1.  To import the GitHub code, click **Code**, the **name of your project     repository** (*MyShop* in the screen) and **Import repository**.
+1.  To import the GitHub code, click **Code**, the **name of your project repository** (*MSReady* on the screen) and **Import repository**.
     
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image5.PNG)
 
-4.  Copy the GitHub project URL to import it and click **Import**. Clone URL: `https://github.com/jcorioland/MyShop`
+4.  Copy the GitHub project URL to import it and click **Import**. Clone URL: `https://github.com/Azure-Samples/azure-voting-app-redis`
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image6.PNG)
 
@@ -143,60 +166,82 @@ In this step, you can import the GitHub project to your VSTS project and use it 
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image7.PNG)
 
-4.  We will use the Kubernetes branch. Select it. 
-    
-    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image8.PNG)
+4.  Edit the file *azure-vote-all-in-one-redis.yml*, delete the content and paste this:
+> **Note**: this file is the kubernetes deployment manifest. It will create two containers (azure-vote-back for the backend and azure-vote-front for the frontend) and expose the services (azure-vote-back internally and azure-vote-front externally). We will customize the frontend container and use a prebuild container for the backend.
 
-5.  Edit the file *src/myshop-deployment.yml*, delete the content and paste this:
-   
-    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image9.PNG)
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image9.PNG)
+
 ```
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: myshop-deployment
+  name: azure-vote-back
 spec:
-  replicas: 3
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 10
+  replicas: 1
   template:
     metadata:
-      labels: 
-        name: myshop-deployment
+      labels:
+        app: azure-vote-back
     spec:
       containers:
-      - name: proxy
-        image: RegistryURL/shop/nginx-proxy:Tag
+      - name: azure-vote-back
+        image: redis
         ports:
-        - containerPort: 80
-          name: http
-      - name: products
-        image: RegistryURL/shop/products-api:Tag
-      - name: ratings
-        image: RegistryURL/shop/ratings-api:Tag
-      - name: recommendations
-        image: RegistryURL/shop/recommendations-api:Tag
-      - name: shop
-        image: RegistryURL/shop/front:Tag
-      imagePullSecrets: 
-        - name: azurecontainerreg
-
+        - containerPort: 6379
+          name: redis
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: myshop-service
+  name: azure-vote-back
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: azure-vote-back
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: azure-vote-front
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: azure-vote-front
+    spec:
+      containers:
+      - name: azure-vote-front
+        image: RegistryURL/azure-vote-front:Tag
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        env:
+        - name: REDIS
+          value: "azure-vote-back"
+      imagePullSecrets: 
+        - name: azurecontainerreg
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-vote-front
 spec:
   type: LoadBalancer
   ports:
   - port: 80
-    name: http
   selector:
-    app: myshop-deployment
+    app: azure-vote-front
 ```
 6. Click **Commit** to save the modification.
     
@@ -216,9 +261,11 @@ In this step, you can set up a build definition for your VSTS project and define
 
 3.  Then, click the **Variables** tab and create a new variable: **RegistryURL**. Paste the values of your Registry URL.  You saved it in **Step 0: Prerequisites - Create an Azure Container Registry**
 
-    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image13.PNG)
+> **Note**: the URL format is dnsname.azurecr.io, without http:// or https://
 
-4.  On the **Build Definitions** page, open the **Triggers** tab and configure the build to use continuous integration with the fork of the MyShop project that you created in the Step 2. Make sure that you select *kubernetes* as the **Branch specification**.
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image13.PNG)
+
+4.  On the **Build Definitions** page, open the **Triggers** tab and configure the build to use continuous integration with the fork of the *azure-voting-app-redis* project that you created in the Step 2. Make sure that you select *master* as the **Branch specification**.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image14.PNG)
 
@@ -227,54 +274,42 @@ In this step, you can set up a build definition for your VSTS project and define
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image15.PNG)
 
 ### Define the build workflow
-The next steps define the build workflow. First, you need to configure the source of the code. To do it, select **This project** and your **repository** and **branch** (kubernetes, you will find it in *All branches*).
+The next steps define the build workflow. First, you need to configure the source of the code. To do it, select **This project** and your **repository** and **branch** (*master*, you will find it in *All branches*).
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image16.PNG)
 
-There are five container images to build for the *MyShop* application. Each image is built using the Dockerfile located in the project folders:
-1.  ProductsApi
-2.  Proxy
-3.  RatingsApi
-4.  RecommandationsApi
-5.  ShopFront
+There is a container image to build for the *Azure Voting App* (the other container is prebuilt). This image is built using the Dockerfile located in the *azure-vote*:
 
-You need two Docker steps for each image, one to build the image, and one to push the image into the Azure container registry.
+You need two Docker steps for create the image, one to build the image, and one to push the image into the Azure Container Registry.
 1.  To add a step in the build workflow, click **+ Add build step** and select **Docker**.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image17.PNG)
 
-2.  For each image, configure one step that uses the `docker build` command.
+2.  Configure one step that uses the `docker build` command.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image18.PNG)
 
-    For the build operation, select your Azure Container Registry, the **Build an image** action, and the Dockerfile that defines each image. Set the **Working Directory** as the Dockerfile root directory, define the **Image Name**, and select **Include Latest Tag**.
+    For the build operation, select your Azure Container Registry, the **Build an image** action, the Dockerfile that defines each image, define the **Image Name**, and select **Include Latest Tag**. The Image Name has to be `$(RegistryURL)/azure-vote-front:$(Build.BuildId)`. 
 
-    The Image Name has to be in this format: `$(RegistryURL)/[NAME]:$(Build.BuildId)`. Replace **[NAME]** with the image name:
-    -   `proxy`
-    -   `products-api`
-    -   `ratings-api`
-    -   `recommendations-api`
-    -   `shopfront`
-
-3.  For each image, configure a second step that uses the docker push command by adding a second Docker task.
+3.  Configure a second step that uses the docker push command by adding a second Docker task.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image19.PNG)
 
-    For the push operation, select your Azure container registry, the **Push an image** action, enter the **Image Name** that is built in the previous step and select **Include Latest Tag**.
+    For the push operation, select your Azure container registry, the **Push an image** action, enter the **Image Name** that is built in the previous step and select **Include Latest Tag**. The Image Name has to be the same: `$(RegistryURL)/azure-vote-front:$(Build.BuildId)`. 
 
-4.  After you configure the build and push steps for each of the five images, add three more steps in the build workflow.
+4.  After you configure the build and push steps for the image, add three more steps in the build workflow.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image20.PNG)
 
-    a.   A command-line task that uses a bash script to replace the *RegistryURL* occurrence in the myshop-deployment.yml file with the RegistryURL variable.
-        `-c "sed -i 's/RegistryURL/$(RegistryURL)/g' src/myshop-deployment.yml"`
+    a.   A command-line task that uses a bash script to replace the *RegistryURL* occurrence in the azure-vote-all-in-one-redis.yml file with the *RegistryURL* variable.
+        `-c "sed -i 's/RegistryURL/$(RegistryURL)/g' azure-vote-all-in-one-redis.yml"`
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image21.PNG)
 
-    b.  A command-line task that uses a bash script to replace the *Tag* occurrence in the myshop-deployment.yml file with the BuildId variable.
-        `-c "sed -i 's/Tag/$(Build.BuildId)/g' src/myshop-deployment.yml"`
+    b.  A command-line task that uses a bash script to replace the *Tag* occurrence in the azure-vote-all-in-one-redis.yml file with the *BuildId* variable.
+        `-c "sed -i 's/Tag/$(Build.BuildId)/g' azure-vote-all-in-one-redis.yml"`
 
-    c.  A task that drops the updated Compose file as a build artifact so it can be used in the release. See the following screen for details.
+    c.  A task that drops the updated YML file as a build artifact so it can be used in the release. See the following screen for details.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image22.PNG)
 
@@ -306,7 +341,7 @@ Visual Studio Team Services allows you to [manage releases across environments](
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image28.PNG)
 
-3.  To configure the artifact source, Click **+ Add artifact**. Here, link this new release definition to the build that you defined in the previous step. After that, the *src/myshop-deployment.yml* file is available in the release process.
+3.  To configure the artifact source, Click **+ Add artifact**. Here, link this new release definition to the build that you defined in the previous step. After that, the *azure-vote-all-in-one-redis.yml* file is available in the release process.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image29.PNG)
 
@@ -322,7 +357,7 @@ The release workflow is composed of one task that you need to add.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image32.PNG)
 
-2.  Configure it with these values (use your own Kubernetes Service Connection, Azure subscription and Azure Container Registry names):
+2.  Configure it with these values (use your own Kubernetes Service Connection, Azure subscription, Azure Container Registry names and the *azure-vote-all-in-one-redis.yml* file):
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image33.PNG)
 
@@ -332,7 +367,7 @@ It´s time to test the release on the Azure Container Service:
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image34.PNG)
 
-2.  Click **Release** and **Create** to start the release.
+2.  Click **Release**, **Create Release** and **Create** to start the release.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image35.PNG)
 
@@ -356,8 +391,9 @@ To access the application, follow these steps:
 ```
 az network public-ip list -g myACSGroup --query "[].[dnsSettings.domainNameLabel, ipAddress]" --out table
 ```
-4. Look for a IP without the name XXXXmgmt, copy the ipAddress and access it via your web browser. You will see your home page of your app running on ACS on Microsoft Azure.
-  
+4. Look for an IP without label (the IP with name XXXXmgmt is the master node), copy the ipAddress and access it via your web browser. You will see your home page of your app running on ACS on Microsoft Azure.
+> **Note**: the public IP assignment process can take up to 5 minutes from the end of the release.
+
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image38.png)
 
 ## Next steps
