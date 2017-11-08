@@ -8,7 +8,7 @@ Nowadays, one of the biggest challenges when developing modern applications for 
 
 In this Hands on Lab, you will learn how to implement a full continuous integration and deployment (CI/CD) pipeline using:
 -   Azure Container Service with Kubernetes: your own infraestructure to run your containers.
--   Azure Container Registry: your own private container repository to save your containers.
+-   Azure Container Registry: your own private container repository to store your containers.
 -   Visual Studio Team Services: the service to run your lifecycle application tasks.
 
 This lab is based on a multi-container web application, available on [GitHub](https://github.com/Azure-Samples/azure-voting-app-redis), developed with Python / Flask and the data component is using Redis.
@@ -25,17 +25,17 @@ The process to build a container is:
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/Slide6.PNG)
 
 In Azure, we have several servicies to use containers:
-[Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/): **Docker private registry** in the cloud.
-[IaaS](https://azure.microsoft.com/en-us/overview/what-is-iaas/): **create your own container environment** using IaaS services: Virtual Machines, VM Scale Set, Azure Batch...
-[Azure Container Service](https://azure.microsoft.com/en-us/services/container-service/): **create your container environment in the easiest way** using Docker Swarm, DC/OS or Kubernetes orchestrator. The new Azure Container Service (AKS) is a managed Kubernetes environment.
+- [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/): **Docker private registry** in the cloud.
+- [IaaS](https://azure.microsoft.com/en-us/overview/what-is-iaas/): **create your own container environment** using IaaS services: Virtual Machines, VM Scale Set, Azure Batch...
+- [Azure Container Service](https://azure.microsoft.com/en-us/services/container-service/): **create your container environment in the easiest way** using Docker Swarm, DC/OS or Kubernetes orchestrator. The new Azure Container Service (AKS) is a managed Kubernetes environment.
 [Azure Service Fabric](https://azure.microsoft.com/en-us/services/service-fabric/): microservices orquestator which allows you to use containers. The only platform with **GA for Windows containers**.
-[Azure Container Instance](https://azure.microsoft.com/en-us/services/container-instances/) *preview*: **Container as a Service**: run containers with a single command.
-[Web App for Containers](https://azure.microsoft.com/en-us/services/app-service/containers/): **PaaS service to run containerized web app**.
+- [Azure Container Instance](https://azure.microsoft.com/en-us/services/container-instances/) *preview*: **Container as a Service**: run containers with a single command.
+- [Web App for Containers](https://azure.microsoft.com/en-us/services/app-service/containers/): **PaaS service to run containerized web app**.
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/Slide7.PNG)
 
 ### Step by step
-The objective is to deliver this application continuously in a Kubernetes cluster using Visual Studio Team Services. Here is a brief explanation of the steps:
+The objective is to deliver this application continuously in a Kubernetes cluster using Visual Studio Team Services. This is a brief explanation of the steps:
 1.  Code changes are committed to the source code repository
 2.  Code repository triggers a build in Visual Studio Team Services
 3.  Visual Studio Team Services gets the latest version of the sources and builds all the images that make up the application
@@ -45,7 +45,7 @@ The objective is to deliver this application continuously in a Kubernetes cluste
 7.  Kubernetes on the cluster pulls the latest version of the images
 8.  The new version of the application is deployed
 
-![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/Slide17.png)
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/Slide17.PNG)
 
 ## Step 0: Prerequisites
 Before starting this lab, you need to complete the following tasks:
@@ -122,7 +122,7 @@ To create a new Azure Container Registry, follow these steps:
 ```
 az acr create --name myContainerRegistry[random] --resource-group myACSGroup --sku Basic --admin-enabled true
 ```
-It will show you some info about the Azure Container Registry. Copy and save the loginServer URL, we will need it later: XXXX.azurecr.io
+It will show you some info about the Azure Container Registry. Copy and save the loginServer URL, we will need it later: *XXXX.azurecr.io*
 
 ### Create a Visual Studio Team Services account and team project
 You need to create a Visual Studio Team Services account with the same email address which has a Microsoft Azure subscription associated. You could follow [these steps](https://www.visualstudio.com/en-us/docs/setup-admin/team-services/sign-up-for-visual-studio-team-services) to create the account and the team project.
@@ -148,9 +148,7 @@ The last step before getting into the CI/CD pipeline is to configure external co
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image4.PNG)
 
-> **Note**: you need the data from Step 0: Prerrequisites, Create a Swarm Mode cluster in Azure Container Service with ACS Engine.
-
-All the configuration is done. In the next steps, you can create the CI/CD pipeline that builds and deploys the application to the Docker Swarm cluster.
+All the configuration is done. In the next steps, you can create the CI/CD pipeline that builds and deploys the application to the Kubernetes cluster.
 
 ## Step 2: Import the code
 In this step, you can import the GitHub project to your VSTS project and use it in the next steps.
@@ -167,7 +165,7 @@ In this step, you can import the GitHub project to your VSTS project and use it 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image7.PNG)
 
 4.  Edit the file *azure-vote-all-in-one-redis.yml*, delete the content and paste this:
-> **Note**: this file is the kubernetes deployment manifest. It will create two containers (azure-vote-back for the backend and azure-vote-front for the frontend) and expose the services (azure-vote-back internally and azure-vote-front externally). We will customize the frontend container and use a prebuild container for the backend.
+> **Note**: this file is the kubernetes deployment manifest. It will create two containers (azure-vote-back for the backend and azure-vote-front for the frontend) and expose the services (azure-vote-back internally and azure-vote-front externally). We will build our customized frontend container and use a prebuild container for the backend.
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image9.PNG)
 
@@ -265,7 +263,7 @@ In this step, you can set up a build definition for your VSTS project and define
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image13.PNG)
 
-4.  On the **Build Definitions** page, open the **Triggers** tab and configure the build to use continuous integration with the fork of the *azure-voting-app-redis* project that you created in the Step 2. Make sure that you select *master* as the **Branch specification**.
+4.  On the **Build Definitions** page, open the **Triggers** tab and configure the build to use continuous integration with the *azure-voting-app-redis* project that you created in the Step 2. Make sure that you select *master* as the **Branch specification**.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image14.PNG)
 
@@ -278,7 +276,7 @@ The next steps define the build workflow. First, you need to configure the sourc
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image16.PNG)
 
-There is a container image to build for the *Azure Voting App* (the other container is prebuilt). This image is built using the Dockerfile located in the *azure-vote*:
+There is a container image (frontend) to build for the *Azure Voting App* (the backend container is prebuilt). This image is built using the Dockerfile located in the *azure-vote*:
 
 You need two Docker steps for create the image, one to build the image, and one to push the image into the Azure Container Registry.
 1.  To add a step in the build workflow, click **+ Add build step** and select **Docker**.
@@ -341,7 +339,7 @@ Visual Studio Team Services allows you to [manage releases across environments](
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image28.PNG)
 
-3.  To configure the artifact source, Click **+ Add artifact**. Here, link this new release definition to the build that you defined in the previous step. After that, the *azure-vote-all-in-one-redis.yml* file is available in the release process.
+3.  To configure the artifact source, Click **+ Add artifact**. Link this new release definition to the build that you defined in the previous step. After that, the *azure-vote-all-in-one-redis.yml* file will be available in the release process.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image29.PNG)
 
@@ -357,7 +355,7 @@ The release workflow is composed of one task that you need to add.
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image32.PNG)
 
-2.  Configure it with these values (use your own Kubernetes Service Connection, Azure subscription, Azure Container Registry names and the *azure-vote-all-in-one-redis.yml* file):
+2.  Configure it with these values (use your own Kubernetes Service Connection, Azure subscription, Azure Container Registry names and the *azure-vote-all-in-one-redis.yml* configuration file):
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image33.PNG)
 
@@ -392,9 +390,19 @@ To access the application, follow these steps:
 az network public-ip list -g myACSGroup --query "[].[dnsSettings.domainNameLabel, ipAddress]" --out table
 ```
 4. Look for an IP without label (the IP with name XXXXmgmt is the master node), copy the ipAddress and access it via your web browser. You will see your home page of your app running on ACS on Microsoft Azure.
-> **Note**: the public IP assignment process can take up to 5 minutes from the end of the release.
 
-    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image38.png)
+> **Note**: the public IP assignment process can take up to 5 minutes from the end of the release because Kubernetes has to request an IP to Azure and Azure has to create a new one.
+
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image38.png)
+
+### Modify the application
+Now it´s time to modify our application and test the automatic pipeline. To do it, follow these steps:
+1. Go to the **Code** section in VSTS:
+2. **Edit** the *azure-vote/azure-vote/config_file.cfg* file with your own **TITLE**, **VOTE1VALUE** and **VOTE2VALUE**
+3. **Commit** the changes
+4. **Access your Web Application IP address** (from previous step) to access your modified web app.
+
+> **Note**: the public IP assignment process can take up to 5 minutes from the commit because the build and release proccess have to be completed.
 
 ## Next steps
 -   For more information about CI/CD with Visual Studio Team Services, see the [VSTS Build overview](https://www.visualstudio.com/docs/build/overview).
