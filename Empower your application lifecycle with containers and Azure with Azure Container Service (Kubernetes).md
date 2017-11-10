@@ -51,6 +51,8 @@ The objective is to deliver this application continuously in a Kubernetes cluste
 Before starting this lab, you need to complete the following tasks:
 
 ### Create a Kubernetes cluster in Azure Container Service
+> **Update**: Microsoft recently launched [Azure Container Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/), a new version of Azure Container Service with Kubernetes as a managed service, so you don´t need container orchestration expertise to maintenance tasks. If you want to try it, you can create your Azure Container Service (AKS) cluster instead of the regular ACS cluster. [Instructions at the end of the Hands on Lab](## Updates).
+
 To create a new Kubernetes cluster in Azure Container Service, follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
@@ -71,39 +73,6 @@ az acs create --orchestrator-type kubernetes --resource-group myACSGroup --name 
 az acs kubernetes get-credentials --resource-group=myACSGroup --name=myK8sCluster
 ```
 6. Copy and save the content of the credentials file, we will need it later:
-```
-cd .kube
-cat config
-```
-> **Note**: copy the empty lines at the beginning and the end of the file.
-
-#### [NEW] Create a Kubernetes cluster in Azure Container Service (AKS)
-Azure Container Service (AKS) is a new managed Kubernetes service. 
-
-To create a new Kubernetes cluster in Azure Container Service (AKS), follow these steps:
-1. Go to [Azure Portal](https://portal.azure.com/)
-2. Open the Cloud Shell and select Bash (Linux)
-    
-    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
-
-3. Type this command to register the AKS provider:
-```
-az provider register -n Microsoft.ContainerService
-```
-4. Type this command to create a new resource group:
-```
-az group create --name myACSGroup --location westeurope
-```
-4. Type this command to create a new ACS Kubernetes cluster and generate new SSH keys(it will take a while):
-> **Note**: if you are using a trial subscription, add `--agent-count 1` at the end of the command to only create one agent node
-```
-az aks create --resource-group myACSGroup --name myK8sCluster --generate-ssh-keys
-```
-6. Type this command to download the credentials to connect via kubectl (the Kubernetes CLI):
-```
-az aks kubernetes get-credentials --resource-group=myACSGroup --name=myK8sCluster
-```
-7. Copy and save the content of the credentials file, we will need it later:
 ```
 cd .kube
 cat config
@@ -409,3 +378,37 @@ Now it´s time to modify our application and test the automatic pipeline. To do 
 -   For more information about Azure Container Service, see the [Azure Container Service Documentation](https://docs.microsoft.com/en-us/azure/container-service/).
 -   For more information about Azure Container Service (AKS), see the [Azure Container Service (AKS) Documentation](https://docs.microsoft.com/en-us/azure/aks/).
 -   For more information about Kubernetes, see the [Kubernetes documentation](https://kubernetes.io/docs/home/).
+
+## Updates
+#### [NEW] Create a Kubernetes cluster in Azure Container Service (AKS)
+Azure Container Service (AKS) is a new managed Kubernetes service. 
+
+To create a new Kubernetes cluster in Azure Container Service (AKS), follow these steps:
+1. Go to [Azure Portal](https://portal.azure.com/)
+2. Open the Cloud Shell and select Bash (Linux)
+    
+    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
+
+3. Type this command to register the AKS provider:
+```
+az provider register -n Microsoft.ContainerService
+```
+4. Type this command to create a new resource group:
+```
+az group create --name myACSGroup --location westeurope
+```
+4. Type this command to create a new ACS Kubernetes cluster and generate new SSH keys(it will take a while):
+> **Note**: if you are using a trial subscription, add `--agent-count 1` at the end of the command to only create one agent node
+```
+az aks create --resource-group myACSGroup --name myK8sCluster --generate-ssh-keys
+```
+6. Type this command to download the credentials to connect via kubectl (the Kubernetes CLI):
+```
+az aks kubernetes get-credentials --resource-group=myACSGroup --name=myK8sCluster
+```
+7. Copy and save the content of the credentials file, we will need it later:
+```
+cd .kube
+cat config
+```
+> **Note**: copy the empty lines at the beginning and the end of the file.
