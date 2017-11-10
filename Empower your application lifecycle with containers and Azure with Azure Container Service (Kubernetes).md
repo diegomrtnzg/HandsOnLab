@@ -11,7 +11,7 @@ In this Hands on Lab, you will learn how to implement a full continuous integrat
 -   Azure Container Registry: your own private container repository to store your containers.
 -   Visual Studio Team Services: the service to run your lifecycle application tasks.
 
-This lab is based on a multi-container web application, available on [GitHub](https://github.com/Azure-Samples/azure-voting-app-redis), developed with Python / Flask (azure-vote-front) and the data component is using Redis (azure-vote-back).
+This lab is based on a multi-container web application, available on [GitHub](https://github.com/Azure-Samples/azure-voting-app-redis), developed with Python / Flask (azure-vote-front container) and the data component is using Redis (azure-vote-back container).
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image38.PNG)
 
