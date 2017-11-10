@@ -133,8 +133,8 @@ In this step, you can import the GitHub project to your VSTS project and use it 
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image7.PNG)
 
-4.  Edit the file *azure-vote-all-in-one-redis.yml*, delete the content and paste this:
-> **Note**: this file is the kubernetes deployment manifest. It will create two containers (azure-vote-back for the backend and azure-vote-front for the frontend) and expose the services (azure-vote-back internally and azure-vote-front externally). We will build our customized frontend container and use a prebuild container for the backend.
+4.  Edit the file *azure-vote-all-in-one-redis.yml* to update the container images on the azure-vote-front service. Delete the content of the file and paste this:
+> **Note**: this file is the kubernetes deployment manifest. We describe on it the objects we would like to create: azure-vote-back deployment (deployment of the azure-vote-back container and its configuration), azure-vote-back service (expose internally the azure-vote-back deployment), azure-vote-front deployment (deployment of the azure-vote-front container and its configuration) and azure-vote-front service (expose externally the azure-vote-front deployment). More info about deployments in the [Kubernetes documentation](#next-steps)
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image9.PNG)
 
