@@ -51,7 +51,7 @@ The objective is to deliver this application continuously in a Kubernetes cluste
 Before starting this lab, you need to complete the following tasks:
 
 ### Create a Kubernetes cluster in Azure Container Service
-> **Update**: Microsoft recently launched [Azure Container Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/), a new version of Azure Container Service with Kubernetes as a managed service, so you don´t need container orchestration expertise to maintenance tasks. If you want to try it, you can create your Azure Container Service (AKS) cluster instead of the regular ACS cluster. [Instructions at the end of the Hands on Lab](##Updates).
+> **Update**: Microsoft recently launched [Azure Container Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/), a new version of Azure Container Service with Kubernetes as a managed service, so you don´t need container orchestration expertise to maintenance tasks. If you want to try it, you can create your Azure Container Service (AKS) cluster instead of the regular ACS cluster. [Instructions at the end of the Hands on Lab](#Updates).
 
 To create a new Kubernetes cluster in Azure Container Service, follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
@@ -379,7 +379,7 @@ Now it´s time to modify our application and test the automatic pipeline. To do 
 -   For more information about Azure Container Service (AKS), see the [Azure Container Service (AKS) Documentation](https://docs.microsoft.com/en-us/azure/aks/).
 -   For more information about Kubernetes, see the [Kubernetes documentation](https://kubernetes.io/docs/home/).
 
-## Updates
+# Updates
 #### [NEW] Create a Kubernetes cluster in Azure Container Service (AKS)
 Azure Container Service (AKS) is a new managed Kubernetes service. 
 
