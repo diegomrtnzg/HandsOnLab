@@ -133,7 +133,7 @@ In this step, you can import the GitHub project to your VSTS project and use it 
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image7.PNG)
 
-4.  Edit the file *azure-vote-all-in-one-redis.yml* to update the container images on the azure-vote-front service. Delete the content of the file and paste this:
+4.  Edit the file *azure-vote-all-in-one-redis.yml* to update the container image on the azure-vote-front deployment to use our own image. The original yml file uses the Microsoft image (and different tag). Delete the content of the file and paste this:
 > **Note**: this file is the kubernetes deployment manifest. We describe on it the objects we would like to create: azure-vote-back deployment (deployment of the azure-vote-back container and its configuration), azure-vote-back service (expose internally the azure-vote-back deployment), azure-vote-front deployment (deployment of the azure-vote-front container and its configuration) and azure-vote-front service (expose externally the azure-vote-front deployment). More info about deployments in the [Kubernetes documentation](#next-steps)
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image9.PNG)
@@ -362,7 +362,7 @@ az network public-ip list -g myACSGroup --query "[].[dnsSettings.domainNameLabel
 
 > **Note**: the public IP assignment process can take up to 5 minutes from the end of the release because Kubernetes has to request an IP to Azure and Azure has to create a new one.
 
-![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image38.png)
+![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image38.PNG)
 
 ### Modify the application
 Now it´s time to modify our application and test the automatic pipeline. To do it, follow these steps:
