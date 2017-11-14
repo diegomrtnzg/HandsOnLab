@@ -77,7 +77,7 @@ az acs kubernetes get-credentials --resource-group=myACSGroup --name=myK8sCluste
 cd .kube
 cat config
 ```
-> **Note**: copy the empty lines at the beginning and the end of the file.
+> **Important**: copy all characters from *apiVersion* to the last one *"*. Don´t copy the spaces or other characters before *apiVersion* nor the spaces after the last non-space character (*"*).
 
 ### Create an Azure Container Registry
 To create a new Azure Container Registry, follow these steps:
