@@ -1,12 +1,12 @@
 # Hand On Lab: Empower your application lifecycle with containers and Azure with Azure Container Service (Docker Swarm Mode)
 
-*This lab is based on* [Full CI/CD pipeline to deploy a multi-container application on Azure Container Service with Docker Swarm using Visual Studio Team Services](https://github.com/Microsoft/azure-docs/blob/master/articles/container-service/container-service-docker-swarm-setup-ci-cd.md) *documentation.*
+*This lab is based on* [Full CI/CD pipeline to deploy a multi-container application on Azure Container Service with Docker Swarm using Visual Studio Team Services](https://docs.microsoft.com/en-us/azure/container-service/dcos-swarm/container-service-docker-swarm-setup-ci-cd) *documentation.*
 
 ## Requirements
 Microsoft Azure subscription
 
 ## Step by step
-Nowadays, one of the biggest challenges when developing modern applications for the cloud is being able to deliver these applications continuously. In this article, you will learn how to implement a full continuous integration and deployment (CI/CD) pipeline using:
+Nowadays, one of the biggest challenges when developing modern applications for the cloud is being able to deliver these applications continuously. In this Hands on Lab, you will learn how to implement a full continuous integration and deployment (CI/CD) pipeline using:
 -   Azure Container Service Engine with Docker Swarm Mode
 -   Azure Container Registry
 -   Visual Studio Team Services
@@ -15,7 +15,7 @@ This lab is based on a simple application, available on [GitHub](https://github.
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image1.png)
 
-The objective is to deliver this application continuously in a Docker Swarm Mode cluster, using Visual Studio Team Services. Here is a brief explanation of the steps:
+The goal is to deliver this application continuously in a Docker Swarm Mode cluster, using Visual Studio Team Services. Here is a brief explanation of the steps:
 1.  Code changes are committed to the source code repository
 2.  Code repository triggers a build in Visual Studio Team Services
 3.  Visual Studio Team Services gets the latest version of the sources and builds all the images that make up the application
@@ -30,7 +30,7 @@ Before starting this lab, you need to complete the following tasks:
 
 ### Create a Swarm Mode cluster in Azure Container Service with ACS Engine
 To create a new Docker Swarm mode cluster in Azure Container Service using ACS Engine, follow these steps:
-1.  [Go to this link](https://github.com/Azure/azure-quickstart-templates/tree/master/101-acsengine-swarmmode)
+1.  Go to [this link](https://github.com/Azure/azure-quickstart-templates/tree/master/101-acsengine-swarmmode)
 2.  Click on "Deploy to Azure" button
 
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service/image2.png)
@@ -70,7 +70,7 @@ Private SSH Key format
 \-----END RSA PRIVATE KEY-----
 ```
 
-The deployment will start to create and in a few minutes you will have it available. You can continue the lab in the meanwhile the ACS cluster is created.
+The deployment will start and, in a few minutes, you will have it available. You can continue the lab in the meanwhile the ACS cluster is created.
 
 You need to save your private SSH key because you will need it on Step 1. You also will need other data from the cluster in the next steps:
 1.  User: is the field Linux Admin Username

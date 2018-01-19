@@ -28,14 +28,14 @@ In Azure, we have several servicies to use containers:
 - [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/): **Docker private registry** in the cloud.
 - [IaaS](https://azure.microsoft.com/en-us/overview/what-is-iaas/): **create your own container environment** using IaaS services: Virtual Machines, VM Scale Set, Azure Batch...
 - [Azure Container Service](https://azure.microsoft.com/en-us/services/container-service/): **create your container environment in the easiest way** using Docker Swarm, DC/OS or Kubernetes orchestrator. The new Azure Container Service (AKS) is a managed Kubernetes environment.
-[Azure Service Fabric](https://azure.microsoft.com/en-us/services/service-fabric/): microservices orquestator which allows you to use containers. The only platform with **GA for Windows containers**.
-- [Azure Container Instance](https://azure.microsoft.com/en-us/services/container-instances/) *preview*: **Container as a Service**: run containers with a single command.
+- [Azure Service Fabric](https://azure.microsoft.com/en-us/services/service-fabric/): microservices orquestator which allows you to use containers. **GA for Windows containers**.
+- [Azure Container Instances](https://azure.microsoft.com/en-us/services/container-instances/) *preview*: **Container as a Service**: run containers with a single command.
 - [Web App for Containers](https://azure.microsoft.com/en-us/services/app-service/containers/): **PaaS service to run containerized web app**.
 
 ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/Slide7.PNG)
 
 ### Step by step
-The objective is to deliver this application continuously in a Kubernetes cluster using Visual Studio Team Services. This is a brief explanation of the steps:
+The goal is to deliver this application continuously in a Kubernetes cluster using Visual Studio Team Services. This is a brief explanation of the steps:
 1.  Code changes are committed to the source code repository
 2.  Code repository triggers a build in Visual Studio Team Services
 3.  Visual Studio Team Services gets the latest version of the sources and builds all the images that make up the application
@@ -50,29 +50,33 @@ The objective is to deliver this application continuously in a Kubernetes cluste
 ## Step 0: Prerequisites
 Before starting this lab, you need to complete the following tasks:
 
-### Create a Kubernetes cluster in Azure Container Service
-> **Update**: Microsoft recently launched [Azure Container Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/), a new version of Azure Container Service with Kubernetes as a managed service, so you don´t need container orchestration expertise to maintenance tasks. If you want to try it, you can create your Azure Container Service (AKS) cluster instead of the regular ACS cluster. [Instructions at the end of the Hands on Lab](#updates).
+### Create a Kubernetes cluster in Azure Container Service (AKS)
+Azure Container Service (AKS) is a new managed Kubernetes service. 
 
-To create a new Kubernetes cluster in Azure Container Service, follow these steps:
+To create a new Kubernetes cluster in Azure Container Service (AKS), follow these steps:
 1. Go to [Azure Portal](https://portal.azure.com/)
 2. Open the Cloud Shell and select Bash (Linux)
-
+    
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
 
-3. Type this command to create a new resource group:
+3. Type this command to register the AKS provider:
+```
+az provider register -n Microsoft.ContainerService
+```
+4. Type this command to create a new resource group:
 ```
 az group create --name myACSGroup --location westeurope
 ```
 4. Type this command to create a new ACS Kubernetes cluster and generate new SSH keys(it will take a while):
 > **Note**: if you are using a trial subscription, add `--agent-count 1` at the end of the command to only create one agent node
 ```
-az acs create --orchestrator-type kubernetes --resource-group myACSGroup --name myK8sCluster --generate-ssh-keys
+az aks create --resource-group myACSGroup --name myK8sCluster --generate-ssh-keys
 ```
-5. Type this command to download the credentials you will need to connect via kubectl (the Kubernetes CLI):
+6. Type this command to download the credentials to connect via kubectl (the Kubernetes CLI):
 ```
-az acs kubernetes get-credentials --resource-group=myACSGroup --name=myK8sCluster
+az aks kubernetes get-credentials --resource-group=myACSGroup --name=myK8sCluster
 ```
-6. Copy and save the content of the credentials file, we will need it later:
+7. Copy and save the content of the credentials file, we will need it later:
 ```
 cd .kube
 cat config
@@ -87,7 +91,7 @@ To create a new Azure Container Registry, follow these steps:
     ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
 
 3. Type this command to create a new Azure Container Registry:
-> **Note**: replace [random] with any random string.
+> **Note**: replace [random] with any random string to create a unique string
 ```
 az acr create --name myContainerRegistry[random] --resource-group myACSGroup --sku Basic --admin-enabled true
 ```
@@ -378,37 +382,3 @@ Now it´s time to modify our application and test the automatic pipeline. To do 
 -   For more information about Azure Container Service, see the [Azure Container Service Documentation](https://docs.microsoft.com/en-us/azure/container-service/).
 -   For more information about Azure Container Service (AKS), see the [Azure Container Service (AKS) Documentation](https://docs.microsoft.com/en-us/azure/aks/).
 -   For more information about Kubernetes, see the [Kubernetes documentation](https://kubernetes.io/docs/home/).
-
-## Updates
-#### [NEW] Create a Kubernetes cluster in Azure Container Service (AKS)
-Azure Container Service (AKS) is a new managed Kubernetes service. 
-
-To create a new Kubernetes cluster in Azure Container Service (AKS), follow these steps:
-1. Go to [Azure Portal](https://portal.azure.com/)
-2. Open the Cloud Shell and select Bash (Linux)
-    
-    ![](media/Empower%20your%20application%20lifecycle%20with%20containers%20and%20Azure%20with%20Azure%20Container%20Service%20(Kubernetes)/image2.PNG)
-
-3. Type this command to register the AKS provider:
-```
-az provider register -n Microsoft.ContainerService
-```
-4. Type this command to create a new resource group:
-```
-az group create --name myACSGroup --location westeurope
-```
-4. Type this command to create a new ACS Kubernetes cluster and generate new SSH keys(it will take a while):
-> **Note**: if you are using a trial subscription, add `--agent-count 1` at the end of the command to only create one agent node
-```
-az aks create --resource-group myACSGroup --name myK8sCluster --generate-ssh-keys
-```
-6. Type this command to download the credentials to connect via kubectl (the Kubernetes CLI):
-```
-az aks kubernetes get-credentials --resource-group=myACSGroup --name=myK8sCluster
-```
-7. Copy and save the content of the credentials file, we will need it later:
-```
-cd .kube
-cat config
-```
-> **Important**: copy all characters from *apiVersion* to the last one (*"*). Don´t copy the spaces or other characters before *apiVersion* nor the spaces after the last non-space character (*"*).
