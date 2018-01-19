@@ -1,5 +1,5 @@
 # Deploying a container to Azure Container Instance
-*This lab is based on* [official documentation](https://docs.microsoft.com/en-us/azure/container-instances/).
+*This lab is based on the* [official documentation](https://docs.microsoft.com/en-us/azure/container-instances/).
 
 Azure Container Instances offers the fastest and simplest way to run a container in Azure, without having to provision any virtual machines and without having to adopt a higher-level service. 
 
