@@ -1,7 +1,7 @@
 # Hand On Lab: Empower your application lifecycle with containers and Azure with Azure Container Service (Kubernetes)
 
 ## Requirements
-Microsoft Azure subscription
+Azure subscription
 
 ## Introduction
 Nowadays, one of the biggest challenges when developing modern applications for the cloud is being able to deliver these applications continuously. In this Hands on Lab, you will learn how to implement a full continuous integration and deployment (CI/CD) pipeline using:
