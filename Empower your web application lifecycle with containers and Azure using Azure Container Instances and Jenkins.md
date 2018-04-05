@@ -325,9 +325,9 @@ To configure the GitHub plugin, follow these steps:
     ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20using%20Azure%20Container%20Instances%20and%20Jenkins/image26.png)
  
 11.	Go to the **Jenkins location** section and modify the Jenkins URL: http://[JenkinsVMDomainNameLabel]:8080/
-12.	 Click “**Apply**”
+12.	 Click ”**Apply**”
 
-    ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20using%20Azure%20Container%20Instances%20and%20Jenkins/image27.png)
+        ![](media/Empower%20your%20web%20application%20lifecycle%20with%20containers%20and%20Azure%20using%20Azure%20Container%20Instances%20and%20Jenkins/image27.png)
  
 13.	Go to the **GitHub** section and click “**Add GitHub Server**”
 14.	Click “**Add**” to add a new credentials and select **Jenkins**
